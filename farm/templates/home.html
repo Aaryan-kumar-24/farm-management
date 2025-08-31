@@ -1,0 +1,702 @@
+{% include "header.html" %}
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
+
+<style>
+/* Video & Logo Styles */
+.video {
+  margin: 10px;
+  border-radius: 100px;
+  margin-left: 495px;
+  height: 568px;
+  width: 1005px;
+}
+
+.logo {
+  position: absolute;
+  height: 400px;
+  width: 400px;
+  top: 25px;
+  left: 50px;
+  margin-top: 60px;
+}
+
+.logo1 {
+  position: absolute;
+  height: 140px;
+  width: 300px;
+  top: 460px;
+  left: 180px;
+  margin-top: 60px;
+  transform: rotate(20deg);
+}
+
+.logos {
+  height: 80px;
+  width: 150px;
+  position: fixed;
+  top: 650px;
+  right: -20px;
+  animation: popUp 1s ease-in-out infinite;
+}
+
+/* Keyframes for pop-up effect */
+@keyframes popUp {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+
+
+.logo2 {
+  position: absolute;
+  height: 400px;
+  width: 600px;
+  top: 390px;
+  left: 50px;
+  margin-top: 60px;
+  font-size: 3.2rem;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+.title {
+  font-size: 4.5rem;
+  font-weight: bold;
+  padding-left: 200px;
+  padding-top: 150px;
+  color: #2e7d32;
+  animation: fadeIn 2s ease-in-out;
+}
+
+.titles {
+  font-size: 4.5rem;
+  font-weight: bold;
+  padding-left: 500px;
+  padding-top: 150px;
+  color: #2e7d32;
+  animation: fadeIn 2s ease-in-out;
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #1b5e20;
+  padding-left: 400px;
+  padding-bottom: 40px;
+  animation: slideUp 2.5s ease-in-out;
+}
+
+/* Card Styles */
+.art-card {
+  border:0px;
+  perspective: 1000px;
+  height: 340px;
+  width: 100%;
+transition: transform 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+}
+
+.art-card:hover {
+  transform: scale(1.03);
+}
+
+.art-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.art-card:hover .art-card-inner {
+  transform: rotateY(180deg);
+}
+
+.art-card-front,
+.art-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.art-card-front video {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+
+/* Offsets for disoriented layout */
+.card-offset-1 {
+  transform: translateY(-30px);
+}
+
+.card-offset-2 {
+  transform: translateX(20px);
+}
+
+.card-offset-3 {
+  transform: translateX(-30px);
+}
+
+.card-offset-4 {
+  transform: translateX(-15px);
+}
+
+.art-card-back {
+  transform: rotateY(180deg);
+  background: linear-gradient(145deg, #d1ead19d, #a9e6a9ff, #39a200ff);
+  color: #021902ff;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  text-align: center;
+  border-radius:50px;
+  
+  box-shadow: 0 10px 30px rgba(39, 174, 96, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Light decorative farming emojis in background */
+.art-card-back::before {
+  content: "🥬🥦🧄🧅🥕🍅🍆🌻🐄🐂🐖🐓🐥";
+  position: absolute;
+  font-size: 4.9rem;
+  color: rgba(255, 255, 0, 0.17);
+  left: 5%;
+  width: 100%;
+  height: 100%;
+  line-height: 1.5;
+  pointer-events: none;
+  white-space: pre-wrap;
+  z-index: 0;
+}
+
+.card-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 14px;
+  color: #000000ff;
+  z-index: 2;
+}
+
+.card-text {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  padding: 0 15px;
+  color: #1e4620;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  z-index: 2;
+}
+
+
+  .form-container {
+    max-width: 650px;
+    margin: 60px auto;
+    padding: 40px;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    border: 2px solid #a5d6a7;
+  }
+
+  .form-container h2 {
+    color: #388e3c;
+    margin-bottom: 20px;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .form-container label {
+    font-size: 1.2rem;
+    color: #4e342e;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 10px;
+    text-align: left;
+  }
+
+  .form-container textarea {
+    width: 100%;
+    min-height: 140px;
+    padding: 15px;
+    font-size: 1rem;
+    border: 2px solid #c5e1a5;
+    border-radius: 10px;
+    resize: vertical;
+    transition: 0.3s ease;
+    background-color: #f9fbe7;
+  }
+
+  .form-container textarea:focus {
+    outline: none;
+    border-color: #81c784;
+    background-color: #fcfff5;
+    box-shadow: 0 0 10px #c8e6c9;
+  }
+
+  .form-container button {
+    margin-top: 25px;
+    padding: 12px 30px;
+    background: linear-gradient(to right, #c9dcb1ff, #8efb00ff);
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .form-container button:hover {
+ transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(76, 175, 80, 0.6);
+  
+    background: linear-gradient(to right, #abe861ff, #6bbd00ff);
+    
+  transform: scale(1.03);
+
+  }
+
+  .form-icon {
+    font-size: 50px;
+    color: #66bb6a;
+    margin-bottom: 10px;
+  }
+
+  .crop-leaf {
+    font-size: 20px;
+    color: #8bc34a;
+    margin-right: 8px;
+  }
+</style>
+
+{% load static %}
+
+<!-- Logos and Header -->
+<img src="{% static 'logo.jpg' %}" class="logo">
+<p class="logo2">Aryavarta E-kheti</p>
+<img src="{% static 'arrow.png' %}" class="logo1">
+
+<!-- Video Banner -->
+<video class="video" controls autoplay muted loop>
+  <source src="{% static 'video.mp4' %}" />
+  Your browser does not support the video tag.
+</video>
+
+<p class="title">🧑‍💻Farm Smarter,💰 Earn Better 📈</p>
+<p class="subtitle">Everything You Need to 🌐 Connect, 🚨 Control & Cultivate 🌱</p>
+
+<!-- Cards Section -->
+<div class="container mt-5">
+  <div class="row g-5"><div class="col-md-6">
+  <!-- Card 1 -->
+  <div class="card art-card card-offset-1">
+    <div class="art-card-inner">
+      <div class="art-card-front">
+        <video autoplay muted loop>
+          <source src="{% static 'workers.mp4' %}" />
+        </video>
+      </div>
+      <div class="art-card-back">
+        <h5 class="card-title">Workers Management</h5>
+        <p class="card-text">
+          Manage worker attendance, assign tasks, and track productivity with a transparent and simple system.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-md-6">
+  <!-- Card 2 -->
+  <div class="card art-card card-offset-2">
+    <div class="art-card-inner">
+      <div class="art-card-front">
+        <video autoplay muted loop>
+          <source src="{% static 'theaf.mp4' %}" />
+        </video>
+      </div>
+      <div class="art-card-back">
+        <h5 class="card-title">Threat / Person Detection</h5>
+        <p class="card-text">
+          Real-time monitoring detects intruders or unauthorized persons and sends instant alerts for farm security.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-md-6">
+  <!-- Card 3 -->
+  <div class="card art-card card-offset-3">
+    <div class="art-card-inner">
+      <div class="art-card-front">
+        <video autoplay muted loop>
+          <source src="{% static 'animal.mp4' %}" />
+        </video>
+      </div>
+      <div class="art-card-back">
+        <h5 class="card-title">Animal Detection</h5>
+        <p class="card-text">
+          Detect animals entering the field, prevent crop damage, and receive timely alerts with detection logs.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-md-6">
+  <!-- Card 4 -->
+  <div class="card art-card card-offset-4">
+    <div class="art-card-inner">
+      <div class="art-card-front">
+        <video autoplay muted loop>
+          <source src="{% static 'video.mp4' %}" />
+        </video>
+      </div>
+      <div class="art-card-back">
+        <h5 class="card-title">Selling and Buying Crop</h5>
+        <p class="card-text">
+          Farmers can list, sell, and buy crops at fair prices through a secure and transparent marketplace.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+</div>
+
+<img src="{% static 'chats.png' %}" class="logos" data-bs-toggle="modal" data-bs-target="#exampleModal">
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" >
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+<form method="POST" action="{% url 'home' %}" enctype="multipart/form-data" class="form-container" style="margin:10px;">
+  {% csrf_token %}
+  <div class="form-icon">
+    <i class="fas fa-tractor"></i>
+  </div>
+  <h2><i class="fas fa-leaf crop-leaf"></i>Share Your Thought's</h2>
+
+  <label for="chat"><i class="fas fa-pen"></i> Your Message</label>
+  <textarea name="chat" id="chat" placeholder="Write something valuable..." required></textarea>
+
+  <button type="submit"><i class="fas fa-paper-plane"></i> Submit</button>
+</form>
+
+    </div>
+  </div>
+</div>
+
+
+
+<style>
+  .swiper {
+    width: 100%;
+    padding: 50px 0;
+  }
+
+  .swiper-slide {
+    background: linear-gradient(135deg, #f6d365, #fda085); /* Orange-pink crop vibe */
+    border-radius: 50px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    padding: 25px 20px;
+    height: 300px;
+    width: 270px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+  }
+
+  .swiper-slide:hover {
+    transform: translateY(-25px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.47);
+  }
+
+  .swiper-slide::before {
+    content: "🐇";
+    position: absolute;
+    font-size: 160px;
+    color: rgba(255, 255, 255, 0.48);
+    top: -20px;
+    right: 40px;
+    transform: rotate(-15deg);
+    z-index: 0;
+    animation: floatIcon 6s infinite linear;
+  }
+
+  .swiper-slide:nth-child(2n)::before { content: "🚜"; }
+  .swiper-slide:nth-child(3n)::before { content: "🍓"; }
+  .swiper-slide:nth-child(4n)::before { content: "🐄"; }
+
+  @keyframes floatIcon {
+    0% { transform: rotate(-15deg) translateY(0); }
+    50% { transform: rotate(-15deg) translateY(5px); }
+    100% { transform: rotate(-15deg) translateY(0); }
+  }
+
+  .swiper-slide p {
+    font-size: 18px;
+    font-weight: 600;
+    color: #3e2723;
+    z-index: 2;
+  }
+
+  .btn-delete {
+  background: linear-gradient(45deg, #ff9100ff, #ff0000ff);
+  box-shadow: 0 0 10px rgba(229, 57, 53, 0.4);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    padding: 8px 16px;
+    margin-top: auto;
+    transition: 0.3s;
+  }
+
+  .btn-delete:hover {
+    background-color: #ff0000ff;
+    
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255, 128, 0, 1);
+  }
+
+
+
+/* Hide default Swiper arrows */
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  display: none;
+}
+
+/* Minimal emoji-only arrow buttons */
+.swiper-button-prev{
+  font-size: 3.5rem;
+  
+  padding-left:100px;
+  color: #2e7d32; /* green for farming feel */
+  background: none;
+  border: none;
+  text-shadow: 1px 1px 2px #9ccc65;
+  transition: transform 0.2s ease-in-out;
+}
+.swiper-button-next {
+  font-size: 3.5rem;
+  padding-right:100px;
+  color: #2e7d32; /* green for farming feel */
+  background: none;
+  border: none;
+  text-shadow: 1px 1px 2px #9ccc65;
+  transition: transform 0.2s ease-in-out;
+}
+
+
+
+/* Use emoji as content */
+.swiper-button-prev::before {
+  content: "🍂"; /* Leaf for previous */
+}
+
+.swiper-button-next::before {
+  content: "🍂"; /* Wheat for next */
+}
+
+    .swiper-wrapper {
+    perspective: 1200px;
+  }
+/* Emoji Background */
+#emoji-bubbles {
+  position: fixed;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+
+@keyframes moveBubbles {
+  0% { transform: translateY(100vh) translateX(-50%); }
+  100% { transform: translateY(-100vh) translateX(50%); }
+}
+
+/* Swiper Chat Card */
+.chat-card {
+  background: linear-gradient(135deg, #e5f5d58e, #a1cb71cd, #84ff00ff);
+  border-radius: 20px;
+  padding: 25px;
+  position: relative;
+  overflow: hidden;
+  
+  box-shadow: 0 0 35px rgba(255, 255, 255, 0.3);
+  z-index: 1;
+  backdrop-filter: blur(8px);
+  transition: transform 0.4s ease, box-shadow 0.4s;
+}
+
+.chat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 35px rgba(0, 0, 0, 0.68);
+}
+
+/* Chat Icon */
+.chat-icon {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  animation: bounceIcon 2s infinite ease-in-out;
+}
+
+@keyframes bounceIcon {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Chat Text */
+.chat-text {
+  font-size: 1.1rem;
+  color: #ffffff;
+  font-weight: 500;
+  line-height: 6.5;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 10px;
+  border-radius: 12px;
+  text-align: justify;
+  z-index: 1;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Delete Button */
+.btn-delete-glow {
+  margin-top: 15px;
+  background: #ff0000c5;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px #ff7043;
+}
+
+.btn-delete-glow:hover {
+  background: #ff0000ff;
+  
+    transform: scale(1.05);
+  box-shadow: 0 0 20px #ff5722;
+}
+
+/* Sparkle Animation */
+.sparkles {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.5rem;
+  animation: rotateSparkles 5s linear infinite;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+@keyframes rotateSparkles {
+  0% { transform: rotate(0); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+
+<p class="titles">🤝 Let’s Talk! 📩</p>
+<!-- Swiper Chat Cards -->
+<div class="container mt-5 position-relative">
+  <div class="swiper mySwiper">
+    <div class="swiper-wrapper">
+      {% for chat in chats %}
+      <div class="swiper-slide chat-card" data-aos="fade-up" data-aos-duration="800">
+        <p class="chat-text">{{ chat.chat }}</p>
+        {% if chat.user == request.user %}
+        <form method="POST" onsubmit="return confirm('Delete this message?');">
+          {% csrf_token %}
+          <input type="hidden" name="delete_id" value="{{ chat.id }}">
+          <button type="submit" class="btn-delete-glow">🧹 Remove Thought</button>
+        </form>
+        {% else %}
+        <div style="height: 40px;"></div>
+        {% endif %}
+      </div>
+      {% empty %}
+      <div class="swiper-slide chat-card">
+        <div class="sparkles">🌟</div>
+        <div class="chat-icon">🌾</div>
+        <p class="chat-text">No chats yet. 🌱 Say something wise, Farmer!</p>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+
+<script>
+  var swiper = new Swiper(".mySwiper", {
+    effect: "creative",
+    grabCursor: true,
+    centeredSlides: true,
+    loop: true,
+    slidesPerView: 3,
+    spaceBetween: 30,
+    speed: 900,
+    creativeEffect: {
+      prev: {
+        shadow: true,
+        translate: ["-120%", 0, -500],
+        rotate: [0, 80, 0],
+      },
+      next: {
+        shadow: true,
+        translate: ["120%", 0, -500],
+        rotate: [0, -80, 0],
+      },
+    },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    breakpoints: {
+      320: { slidesPerView: 1 },
+      768: { slidesPerView: 2 },
+      1200: { slidesPerView: 3 },
+    },
+  });
+
+  AOS.init();
+</script>
+
+
+{% include "footer.html" %}

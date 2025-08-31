@@ -1,0 +1,195 @@
+{% include "header.html" %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login & Signup</title>
+  
+        {% load static %}
+<style>
+  .containers {
+    margin-left:500px;
+    
+    margin-top:30px;
+    width: 100%;
+    max-width: 400px;
+    background: rgba(255, 255, 255, 0); 
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(166, 166, 166, 0);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    animation: fadeSlideIn 1s ease;
+    
+  }
+
+  @keyframes fadeSlideIn {
+    from {
+      opacity: 0;
+      transform: translateY(-40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  h2 {
+    text-align: center;
+    color: #ff0000ff;
+    margin-bottom: 20px;
+    font-weight: 600;
+    letter-spacing: 1px;  
+    
+  }
+
+  label {
+    color: #000000ff;
+    font-size: 14px;
+    margin-bottom: 6px;
+    font-size:1.2rem;
+  }
+
+  input, select {
+    width: 340px;
+    padding: 10px 12px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 10px;
+    background: rgba(0, 255, 38, 0.07);
+    color: black;
+    backdrop-filter: blur(5px);
+    font-size: 14px;
+  }
+
+  input::placeholder {
+    color: green;
+  }
+
+  button {
+    background: linear-gradient(to right, #c9dcb1ff, #8efb00ff); padding: 40px 0;"
+    color: white;
+    padding: 12px;
+    border: none;
+    width: 160px;
+    margin-left:100px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease;
+  }
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(76, 175, 80, 0.6);
+}
+
+  .toggle-link {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+    color: #ff6a00ff;
+  }
+
+  .toggle-link a {
+    color: #0091ffff;
+    cursor: pointer;
+    text-decoration: underline;
+    font-weight: bold;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+.kisan{
+  position:absolute;
+  margin-left:938px;
+  margin-top:70px;
+
+height:320px;
+width:200px;
+
+}
+
+</style>
+</head>
+<body>
+
+
+<img class="kisan" src="{% static 'kisan.jpg' %}">
+
+
+  <div class="containers">
+    <!-- Login Form -->
+    <div id="loginForm">
+      <h2>Login</h2>
+      <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="form_type" value="login">
+
+        <label>Username:</label>
+        <input type="text" name="username" required>
+
+        <label>Password:</label>
+        <input type="password" name="password" required>
+
+        <button type="submit">Login</button>
+      </form>
+      <div class="toggle-link">
+        Don't have an account? <a onclick="showSignup()">Signup here</a>
+      </div>
+    </div>
+
+    <!-- Signup Form -->
+    <div id="signupForm" class="hidden">
+      <h2>Signup</h2>
+      <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="form_type" value="signup">
+
+        <label>User Name:</label>
+        <input type="text" name="name" required>
+
+        <label>Email:</label>
+        <input type="email" name="email" required>
+
+        <label>Phone Number:</label>
+        <input type="text" name="phone" required>
+
+        <label>Password:</label>
+        <input type="password" name="password" required>
+
+        <label>Confirm Password:</label>
+        <input type="password" name="confirm_password" required>
+
+        <label>You want to:</label>
+        <select name="role" required>
+          <option value="buyier">Buy Crop</option>
+          <option value="seller">Sell Crop</option>
+        </select>
+
+        <button type="submit">Signup</button>
+      </form>
+      <div class="toggle-link">
+        Already have an account? <a onclick="showLogin()">Login here</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showSignup() {
+      document.getElementById("loginForm").classList.add("hidden");
+      document.getElementById("signupForm").classList.remove("hidden");
+    }
+
+    function showLogin() {
+      document.getElementById("signupForm").classList.add("hidden");
+      document.getElementById("loginForm").classList.remove("hidden");
+    }
+  </script>
+</body>
+</html>
+
+{% include "footer.html" %}

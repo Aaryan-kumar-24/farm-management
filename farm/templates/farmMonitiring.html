@@ -1,0 +1,201 @@
+{% include "header.html"  %}
+
+
+<style>
+
+
+/* Heading Section */
+.heading-container {
+    padding-top:20px;
+    padding-bottom:40px;
+}
+
+.heading-container h2 {
+    
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: #00ff11ff;
+    margin-top: 10px;
+    text-shadow: 1px 1px 3px rgba(0, 128, 0, 0.3);
+}
+
+.heading-container p {
+    font-size: 1rem;
+    color: #e11717ff;
+    width:690px;
+    margin-left:420px;
+}
+
+/* Animated Border Video */
+.monitiring_video {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.monitiring_video img {
+    margin-bottom:30px;
+    border-radius: 20px;
+    animation: pulse-border 2s infinite;
+    box-shadow: 0 0 30px rgba(85, 255, 7, 0.8);
+}
+
+/* Pulsing video effect */
+@keyframes pulse-border {
+    0% {
+        
+    transform: scale(1.04);
+        box-shadow: 0 0 20px rgba(44, 255, 7, 1);
+    }
+    50% {
+    transform: scale(1.09);
+        box-shadow: 0 0 45px rgba(255, 7, 7, 1);
+    }
+    100% {
+    transform: scale(1.04);
+        box-shadow: 0 0 20px rgba(23, 255, 7, 1);
+    }
+}
+
+/* Object Detection Button */
+.monitiring_object {
+    padding-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.display {
+    height: 60px;
+    min-width: 280px;
+    padding: 0 20px;
+    font-size: 1.5rem;
+    color: #fff;
+    background: linear-gradient(135deg, #ff6a00, #ee0979);
+    border: none;
+    border-radius: 50px;
+    box-shadow: 0 0 15px rgba(255, 105, 180, 0.6);
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.display:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 25px rgba(255, 105, 180, 0.8);
+}
+
+.display i.material-icons {
+    font-size: 30px;
+}
+
+.a{
+    display:flex;
+    height:26px;
+       width: 1000px;
+       gap:0;
+margin-left:310px;
+margin-bottom:40px;
+}
+
+.logos{
+width:50px;
+justify-content:center;
+align-items:center;
+margin-top:14px;
+margin-left:20px;
+
+}
+.logos_text{
+    width:900px;
+}
+
+
+    .logo-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .logo-container img {
+      height: 44px;
+      width: 44px;
+      border-radius: 50%;
+    }
+
+    .logo-title {
+      font-size: 0.8rem;
+      color: #fff;
+      font-weight: 500;
+      margin-top: 3px;
+      text-align: center;
+    }
+</style>
+
+
+
+<div class="monitiring">
+  <!-- Sectioned Headings -->
+  <div class="heading-container">
+    <div class="a">
+<div class="logos">
+        {% load static %}
+    <div class="logo-container">
+      <img src="{% static 'logo.jpg' %}" alt="Logo">
+      <div class="logo-title">Aryavarta Ekheti</div>
+    </div>
+</div>
+<div class="logos_text">
+    <h2>Safeguard Your Fields with Alert Monitoring 🚨</h2></div></div>
+    <p><marquee>Real-time AI-based surveillance system built to ensure your crops remain safe and monitored 24/7.</marquee></p>
+  </div>
+<div class="monitiring">
+<div class="monitiring_video">
+    <img src="{% url 'video_feed' %}" width="800" height="500"  ></img> 
+      </div>
+      
+    <div class="monitiring_object">
+<h1>Object Found is </h1>
+<button class="display" id="object-list" >
+       {{ objects }}
+    </button>
+  
+</div></div>
+
+
+
+ 
+
+ 
+
+    <script>
+        const evtSource = new EventSource("{% url 'object_names_stream' %}");
+        evtSource.onmessage = function(event) {
+            const objectList = event.data.split(",");
+            const listContainer = document.getElementById("object-list");
+            listContainer.innerHTML = ""; // clear old list
+            objectList.forEach(name => {
+                if (name.trim() !== "") {
+                    const li = document.createElement("h1");
+                    li.textContent = name.trim();
+                    listContainer.appendChild(li);
+                }
+            });
+        };
+    </script>
+
+
+
+
+
+
+
+
+
+
+{% include "footer.html"  %} 

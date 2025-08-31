@@ -1,0 +1,453 @@
+{% include "header.html" %}
+  {% if role == "seller" %}
+    
+<style>
+
+
+  h2 {
+    font-weight: bold;
+    text-align: center;
+    margin: 40px 0 20px;
+    color: #2e7d32;
+    font-size: 2rem;
+  }
+
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    padding-bottom: 50px;
+  }
+
+  .buyer-card {
+    width: 400px;
+    background: linear-gradient(to bottom right, #ffffff, #f1fdf2);
+    border-radius: 20px;
+    box-shadow: 0 10px 22px rgba(100, 180, 100, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    overflow: hidden;
+    transform: translateY(20px) scale(1);
+    opacity: 0;
+    animation: fadeInCard 0.6s ease-out forwards;
+  }
+
+  .buyer-card:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 25px 40px rgba(76, 175, 80, 0.45);
+    border-color: #4caf50;
+  }
+
+  .card-header {
+    background: linear-gradient(to right, #a5d6a7, #d0f0c0);
+    padding: 18px 22px;
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #1b5e20;
+    text-align: center;
+    border-bottom: 2px dashed #81c784;
+  }
+
+  .card-body {
+    padding: 22px 26px;
+    color: #2f4f2f;
+    background-color: #ffffff;
+  }
+
+  .buyer-details p {
+    margin: 10px 0;
+    font-size: 1rem;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px dashed #d0f0d3;
+    padding-bottom: 6px;
+  }
+
+  .buyer-details span {
+    font-weight: 500;
+    color: #388e3c;
+  }
+
+  .interest-message {
+    margin-top: 18px;
+    background-color: #e8f5e9;
+    padding: 12px 16px;
+    font-style: italic;
+    border-left: 5px solid #66bb6a;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    box-shadow: 0 2px 6px rgba(90, 190, 90, 0.1);
+  }
+
+  .delete-container {
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  .delete-btn {
+    background-color: #e53935;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 0.95rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 10px rgba(229, 57, 53, 0.2);
+  }
+
+  .delete-btn:hover {
+    background-color: #c62828;
+    box-shadow: 0 6px 16px rgba(229, 57, 53, 0.35);
+  }
+
+  /* Entrance animation */
+  @keyframes fadeInCard {
+    to {
+      opacity: 1;
+      transform: translateY(0px) scale(1);
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .buyer-card {
+      width: 90%;
+    }
+  }
+
+  .btn-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-row form,
+.btn-row button {
+  margin: 0;
+  flex: 1;
+}
+
+  .accept-btn {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 0.95rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 10px rgba(76, 175, 80, 0.2);
+    margin-top: 8px;
+  }
+
+  .accept-btn:hover {
+    background-color: #388e3c;
+    box-shadow: 0 6px 16px rgba(76, 175, 80, 0.4);
+  }
+/* Row layout stays the same */
+.btn-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+/* Common button style base */
+.btn-row button,
+.btn-row form button {
+  flex: 1;
+  font-size: 1rem;
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  animation: pulseGlow 2s infinite;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* DELETE button styling */
+.delete-btn {
+  background: linear-gradient(45deg, #ff9100ff, #ff0000ff);
+  box-shadow: 0 0 10px rgba(229, 57, 53, 0.4);
+}
+
+.delete-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255, 4, 0, 0.91);
+}
+
+/* ACCEPT button styling */
+.accept-btn {
+  background: linear-gradient(45deg, #00ff0dff, #66bb6a);
+  box-shadow: 0 0 10px rgba(76, 175, 80, 0.4);
+}
+
+.accept-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(76, 175, 80, 0.6);
+}
+
+/* Animation: glowing pulse */
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 16px rgba(0, 0, 0, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+  }
+}
+
+</style>
+
+
+
+
+
+<h2>🧑‍🌾 Buyers Interested in Your Crops 🌾</h2>
+
+<div class="card-container">
+  {% for buyer in buyers %}
+  <div class="buyer-card">
+    <div class="card-header">🌿 Crop: {{ buyer.crop_name }}</div>
+    <div class="card-body">
+      <div class="buyer-details">
+        <p><span>👤 Name:</span> {{ buyer.buyer_name }}</p>
+        <p><span>📍 Address:</span> {{ buyer.buyer_address }}</p>
+        <p><span>📞 Phone:</span> {{ buyer.buyer_phone }}</p>
+        <p><span>📦 Quantity:</span> {{ buyer.purchase_quantity }} KG</p>
+        <p><span>💰 Price:</span> ₹{{ buyer.negotiation_price }}/KG</p>
+      </div>
+      <div class="interest-message">
+        💬 I am interested in buying your crop! Let’s connect soon! 🙌
+      </div>
+ <div class="delete-container btn-row">
+  <form method="POST" onsubmit="return confirm('Are you sure you want to delete this Request?');">
+    {% csrf_token %}
+    <input type="hidden" name="delete_id" value="{{ buyer.id }}">
+    <button type="submit" class="delete-btn"><i class="fa-solid fa-trash-can"></i> Delete</button>
+  </form>
+  
+  <button class="accept-btn" onclick="acceptRequest('{{ buyer.id }}', '{{ buyer.buyer_name }}', '{{ buyer.crop_name }}')">🫱‍🫲 Accept</button>
+</div>
+
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+
+<script>
+  function acceptRequest(id, name, crop) {
+    const timestamp = new Date().toLocaleString();
+
+    const acceptedObj = {
+      id: id,
+      name: name,
+      crop: crop,
+      timestamp: timestamp
+    };
+
+    let acceptedRequests = JSON.parse(localStorage.getItem("acceptedRequests")) || [];
+    acceptedRequests.push(acceptedObj);
+    localStorage.setItem("acceptedRequests", JSON.stringify(acceptedRequests));
+
+    // Create colorful animated confirmation popup
+    const popup = document.createElement("div");
+    popup.innerHTML = `🎉 <strong>Success!</strong> You accepted <strong>${name}</strong>'s request for <strong>${crop}</strong> 🌾`;
+    popup.style.position = "fixed";
+    popup.style.top = "-100px";
+    popup.style.left = "50%";
+    popup.style.transform = "translateX(-50%)";
+    popup.style.background = "linear-gradient(90deg, #00c853, #69f0ae, #00e676)";
+    popup.style.color = "#fff";
+    popup.style.padding = "16px 24px";
+    popup.style.fontSize = "1.1rem";
+    popup.style.borderRadius = "12px";
+    popup.style.boxShadow = "0 10px 25px rgba(0,0,0,0.3)";
+    popup.style.zIndex = "9999";
+    popup.style.fontWeight = "600";
+    popup.style.animation = "slideDown 0.6s ease-out forwards, bounce 0.5s 0.6s ease";
+
+    document.body.appendChild(popup);
+
+    // Slide back up and remove after 4s
+    setTimeout(() => {
+      popup.style.animation = "slideUp 0.6s ease-in forwards";
+    }, 3000);
+    setTimeout(() => {
+      popup.remove();
+    }, 3600);
+  }
+
+  // Animation keyframes
+  const styleSheet = document.createElement("style");
+  styleSheet.type = "text/css";
+  styleSheet.innerText = `
+    @keyframes slideDown {
+      from { top: -100px; opacity: 0; }
+      to { top: 30px; opacity: 1; }
+    }
+
+    @keyframes bounce {
+      0% { transform: translateX(-50%) scale(1); }
+      50% { transform: translateX(-50%) scale(1.05); }
+      100% { transform: translateX(-50%) scale(1); }
+    }
+
+    @keyframes slideUp {
+      from { top: 30px; opacity: 1; }
+      to { top: -100px; opacity: 0; }
+    }
+  `;
+  document.head.appendChild(styleSheet);
+</script>
+
+      {% endif %}
+
+  {% if role == "buyier"  %}
+    
+
+
+<style>
+  h2 {
+    text-align: center;
+    margin: 30px 0;
+    color: #2e7d32;
+  }
+
+  .accepted-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    padding-bottom: 50px;
+    
+  }
+  
+  .accepted-card {
+    width: 400px;
+    background: linear-gradient(to right, #d2e3c8ff, #2de03cff);
+    border-radius: 20px;
+    box-shadow: 0 10px 22px rgba(100, 180, 100, 0.2);
+    padding: 20px;
+    
+  }
+    
+
+.accepted-card:hover {
+  transform: scale(1.01);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.36);
+}
+
+
+  
+  .accepted-card h3 {
+    margin-bottom: 10px;
+    color: #1b5e20;
+  }
+  
+  .accepted-card p {
+    margin: 5px 0;
+    color: #2f4f2f;
+    font-size: 0.95rem;
+  }
+
+  @keyframes fadeInCard {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+.delete-btn {
+  background: linear-gradient(45deg, #ff9100ff, #ff0000ff);
+  box-shadow: 0 0 10px rgba(229, 57, 53, 0.4);
+}
+
+.delete-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255, 4, 0, 0.91);
+}
+</style>
+
+<h2>✅ Your Accepted Requests</h2>
+
+<div class="accepted-container" id="acceptedContainer">
+  <!-- Cards will be injected here -->
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    let accepted = JSON.parse(localStorage.getItem("acceptedRequests")) || [];
+
+    const container = document.getElementById("acceptedContainer");
+
+    if (accepted.length === 0) {
+      container.innerHTML = "<p style='text-align:center;'>No accepted requests found.</p>";
+      return;
+    }
+
+    // Function to render cards
+    function renderCards() {
+      container.innerHTML = "";
+
+      if (accepted.length === 0) {
+        container.innerHTML = "<p style='text-align:center;'>No accepted requests found.</p>";
+        return;
+      }
+
+      accepted.forEach((item, index) => {
+        const card = document.createElement("div");
+        card.className = "accepted-card";
+
+        card.innerHTML = `
+          <h3>🌿 Crop: ${item.crop}</h3>
+          <p><strong>👤 Buyer:</strong> ${item.name}</p>
+          <p><strong>📅 Accepted on:</strong> ${item.timestamp}</p>
+          <p>✅ Your crop request has been accepted! Expect contact soon.</p>
+          <div style="text-align: right; margin-top: 10px;">
+            <button class="delete-btn" style="padding: 6px 12px; background-color: #e53935; color: white; border: none; border-radius: 6px; cursor: pointer;">
+              🗑️ Delete
+            </button>
+          </div>
+        `;
+
+        const deleteBtn = card.querySelector(".delete-btn");
+        deleteBtn.addEventListener("click", () => {
+          if (confirm("Are you sure you want to delete this request?")) {
+            // Remove from accepted array
+            accepted.splice(index, 1);
+
+            // Update localStorage
+            localStorage.setItem("acceptedRequests", JSON.stringify(accepted));
+
+            // Re-render cards
+            renderCards();
+          }
+        });
+
+        container.appendChild(card);
+      });
+    }
+
+    // Initial render
+    renderCards();
+  });
+</script>
+
+   {% endif %}
+
+      {% include "footer.html" %}
+   

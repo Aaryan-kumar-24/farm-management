@@ -1,0 +1,403 @@
+{% include "header.html"  %}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<div class="art-title" style="display: flex; justify-content: space-between; margin-top: 7px;color:#abdc0dff; padding: 40px; align-items: center; height: 60px; ">
+      <div class="title" style="display: flex; gap: 3px; justify-content: space-evenly; align-items: center; height: 60px; ">
+        <p style="font-size: 2.5rem; font-family:'Times New Roman', Times, serif; margin-left:20px;">Buy Crop's</p><p style="font-size: 0.9rem; width:60px;"> 
+  <marquee>100+ Farmers & Their Crops 
+  </marquee></p> 
+      </div>   
+      </div>
+
+
+
+      <h2 class="logo-title text-success mt-2" style="padding-bottom:38px;  font-size:2.4rem;" >
+ <i class="bi bi-shop-window"></i> Buy fresh, high-quality crops directly from farmers <i class="bi bi-emoji-smile"></i>
+ 
+  </h2>
+
+
+
+
+
+<style>
+.submit-btn {
+  background: rgba(255, 0, 0, 0.61); /* translucent red */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  font-weight: bold;
+  border-radius: 30px;
+  padding: 12px 30px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  display: block;
+  margin: 0 auto;  /* center horizontally */
+  text-align: center;
+}
+
+.submit-btn:hover {
+  background: rgba(255, 0, 0, 0.81);
+  transform: scale(1.05);
+}
+
+  .file-selected-text {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #333;
+  }
+
+/* ========== Glassmorphic Upload Modal ========== */
+.modal-content {
+  background: rgba(255, 255, 255, 0.05);  /* light transparent layer */
+  backdrop-filter: blur(14px);           /* glass blur effect */
+  -webkit-backdrop-filter: blur(14px);   /* Safari support */
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+  color: #ffffff;
+}
+
+/* Modal Header with slight tint */
+.modal-header {
+  background: rgba(0, 216, 155, 0.4);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+/* Upload Card (form container) */
+.upload-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 30px;
+}
+
+/* Input Fields */
+.form-control {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border-radius: 12px;
+  padding: 10px 14px;
+}
+
+.form-control::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+label {
+  color: #e0f7fa;
+  font-weight: 600;
+}
+
+/* Upload Box */
+.upload-box {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px dashed rgba(0, 188, 212, 0.6);
+  backdrop-filter: blur(8px);
+  color: #e0f7fa;
+}
+
+.upload-box:hover {
+  background-color: rgba(0, 188, 212, 0.08);
+  border-color: #00acc1;
+}
+
+.upload-box span {
+  color: #fff;
+}
+
+.file-selected-text {
+  color: #ffffff;
+}
+
+
+/* Optional: Darker Background Behind Modal */
+.modal-backdrop.show {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+  
+  .crop_card{
+    margin:0;
+  padding:0;
+height: 340px;
+ width:340px;
+
+ border-radius: 1.2rem; 
+
+}
+
+.card_body{
+  display:flex;
+  margin:0;
+  padding:0;
+height: 300px;
+ width:340px;
+
+}
+
+.row1 {
+    margin:0;
+  padding:0;
+width:310px;
+display:flex;
+}
+
+.row2 {
+  
+gap:18px;
+display:flex;
+align-items:space-evenly;
+font-size:1.03rem;
+width:320px;
+font-weight:100;
+}
+
+
+.row3 {
+padding-top:10px;
+font-size:1rem;
+width:320px;
+font-weight:380;
+}
+
+
+
+.crop_name{
+font-size:2.2rem;
+width:200px;
+justify-content:space-evenly;
+
+
+}
+
+.crop_bread_type{
+  width:100px;
+
+}
+
+.crop_bread , .crop_type{
+font-size:0.7rem;
+width:100px;
+margin-left:18px;
+margin-top:2px;
+
+font-weight:800;
+}
+
+
+/* Crop Card Styling with Dark Box Shadow and Hover Effect */
+.crop_card .card {
+  
+  border-radius: 1.4rem;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4); 
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* Hover Effect */
+.crop_card .card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6); 
+
+}
+
+ 
+.crop_card {
+  margin: 10px;
+  padding-top:10px;
+  height: auto;
+  width: 340px;
+  border-radius: 1.2rem;
+  flex: 0 0 auto;
+}
+
+</style>
+
+<div class="container mt-4">
+  <div class="row g-4">
+    {% for crop in data %}
+    <div class="col-md-4 d-flex justify-content-center">
+      <div class="crop_card">
+        <div class="card">
+          <!-- Crop Image -->
+          <img src="{{ crop.crop_image.url }}" alt="{{ crop.crop_name }}"
+            style="height: 320px; width:320px; object-fit: cover; margin: 10px; margin-bottom:0; border-radius: 1.2rem;">
+
+          <!-- Card Body -->
+          <div class="card-body">
+
+            <!-- Row 1 -->
+            <div class="row1">
+              <div class="crop_name">{{ crop.crop_name }}</div>
+              <div class="crop_bread_type">
+                <div class="crop_bread"> <span style="color: #FFD700;">●</span> Bread : {{ crop.crop_bread }}</div>
+                <div class="crop_type"> <span style="color: #32CD32;">●</span> Type : {{ crop.crop_type }}</div>
+              </div>
+            </div>
+
+            <!-- Row 2 -->
+            <div class="row2">
+              <div class="dry"><i class="bi bi-droplet-half me-2 text-primary"></i>{{ crop.crop_dryness }}% dry</div>
+              <div class="quantity"><i class="bi bi-box-seam me-2 text-success"></i>{{ crop.crop_quantity }} kg</div>
+              <div class="price"><i class="bi bi-currency-rupee me-2 text-warning"></i>{{ crop.expected_price }} per(KG)</div>
+            </div>
+
+            <!-- Row 3 -->
+            <div class="row3">
+              This {{ crop.crop_name }} is Grown By Farmer {{ crop.farmer_name }} in The place {{ crop.farming_location }},
+              It Took {{ crop.croping_duration }} Months To Grow & Harvest and to reach to You
+            </div>
+
+            <!-- Row 4:  -->
+          <div class="text-center mt-3">
+            <button type="button" class="btn btn-outline-success px-4 py-2" data-bs-toggle="modal"
+              data-bs-target="#purchaseModal{{ crop.id }}">
+              Request for Purchase
+            </button>
+          </div>
+
+          </div>
+        </div>
+      </div>
+    </div> <div class="modal fade" id="purchaseModal{{ crop.id }}" tabindex="-1"
+      aria-labelledby="purchaseModalLabel{{ crop.id }}" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form method="POST" action="{% url 'buyier' %}">
+            {% csrf_token %}
+            <div class="modal-header">
+              <h5 class="modal-title text-success">Purchase Request</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+              <input type="hidden" name="crop_name" value="{{ crop.crop_name }}">
+              <input type="hidden" name="farmer_name" value="{{ crop.farmer_name }}">
+
+              <div class="mb-3">
+                <label>Buyer Name</label>
+                <input type="text" class="form-control" name="buyer_name" required>
+              </div>
+              <div class="mb-3">
+                <label>Buyer Phone Number</label>
+                <input type="number" class="form-control" name="buyer_phone" required>
+              </div>
+              <div class="mb-3">
+                <label>Delivery Address</label>
+                <textarea class="form-control" name="buyer_address" rows="3" required></textarea>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label>Quantity to Purchase (KG)</label>
+                  <input type="number" class="form-control" name="purchase_quantity" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label>Negotiation Price (per KG)</label>
+                  <input type="number" class="form-control" name="negotiation_price" required>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button type="submit" class="submit-btn">Submit Request</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  
+    {% endfor %}
+  </div>
+</div>
+
+<style>
+  .farm-paginator {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin-top: 40px;
+  }
+
+  .farm-page {
+    position: relative;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #e0f2e9, #bce5c7);
+    border: 2px solid #5b8c5a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 80, 20, 0.2);
+  }
+
+  .farm-page:hover {
+    background-color: #a9d6a5;
+    transform: scale(1.1);
+  }
+
+  .farm-page span.emoji {
+    font-size: 24px;
+  }
+
+  .farm-page .page-number {
+    font-size: 12px;
+    position: absolute;
+    bottom: -20px;
+    color: #3a5a40;
+    font-weight: 600;
+  }
+
+  .farm-nav {
+    font-size: 14px;
+    font-weight: 600;
+    color: #407a3c;
+    padding: 6px 14px;
+    
+    margin-top:12px;
+    transition: 0.3s;
+    text-decoration: none;
+  }
+
+  .farm-nav:hover {
+    color: #2e6a2e;
+      transform: scale(1.1);
+  }
+.pages{
+  padding-top:80px;
+}
+
+</style>
+
+<div class="farm-paginator pages">
+  {% if data.has_previous %}
+    <a class="farm-nav" href="/buyier/?page={{data.previous_page_number}}">⏮ Prev</a>
+  {% endif %}
+
+  <a href="/buyier/?page=1" class="farm-page">
+    <span class="emoji">🌾</span>
+    <div class="page-number">1</div>
+  </a>
+  <a href="/buyier/?page=2" class="farm-page">
+    <span class="emoji">🌿</span>
+    <div class="page-number">2</div>
+  </a>
+  <a href="/buyier/?page=3" class="farm-page">
+    <span class="emoji">🌽</span>
+    <div class="page-number">3</div>
+  </a>
+
+  {% if data.has_next %}
+    <a class="farm-nav" href="/buyier/?page={{data.next_page_number}}">Next ⏭</a>
+  {% endif %}
+</div>
+
+{% include "footer.html" %}

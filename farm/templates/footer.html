@@ -1,0 +1,70 @@
+
+<style>
+
+
+.footer_image{
+  display:flex;
+}
+</style>
+ {% load static %}
+<div class="footer_image" style="margin-top:100px;">
+<img src="{% static 'footera.png' %}">
+<img src="{% static 'footerb.png' %}" style="width:700px;">
+
+
+</div>
+
+<div class="header">
+<footer class="text-white " style=" background: linear-gradient(to bottom, #9ed457ff, #578618ff, #3a6009ff, #294603ff); padding: 40px 0;">
+  <div class="container ">
+    <div class="row">
+
+      <!-- About Section -->
+      <div class="col-md-3 mb-4">
+        <h5>About Us</h5>
+        <p>
+          Aryavarta E-Kheti supports farmers by providing smart monitoring, crop selling, and real-time tools to secure and boost agriculture.
+        </p>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="col-md-3 mb-4">
+        <h5>Quick Links</h5>
+        <ul class="list-unstyled" >
+          <li><a href="{% url 'home' %}" class="text-white" style="text-decoration:none;" >Home</a></li>
+          <li><a href="{% url 'sell_crop' %}" class="text-white" style="text-decoration:none;" >Sell Crop</a></li>
+          <li><a href="{% url 'farm_monitiring' %}" class="text-white" style="text-decoration:none;" >Farm Monitoring</a></li>
+          <li><a href="{% url 'workers' %}" class="text-white" style="text-decoration:none;" >Worker Management</a></li>
+          <li><a href="{% url 'storage' %}" class="text-white" style="text-decoration:none;" >Storage Management</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="col-md-3 mb-4">
+        <h5>Contact</h5>
+        <p><i class="fas fa-map-marker-alt"></i> Village Maldiha, Bihar , India</p>
+        <p><i class="fas fa-phone"></i> +91 9310625964</p>
+        <p><i class="fas fa-envelope"></i> amankumarjanuary@gmail.com</p>
+      </div>
+
+      <!-- Social Media -->
+      <div class="col-md-3 mb-4">
+        <h5>Follow Us</h5>
+        <div class="d-flex" style="margin-left:1px;">
+          <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/_aaryan__24/" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+          <a href="https://youtube.com/@aryavarta_twinbro" class="text-white me-3"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+
+    </div>
+
+    <hr class="border-light" />
+
+    <!-- Footer Bottom -->
+    <div class="text-center">
+      &copy; 2025 Aryavarta E-kheti . All rights reserved  @ Aryavarta Twinbro.
+    </div>
+  </div>
+</footer>
+  </div>

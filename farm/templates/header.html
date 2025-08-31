@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AgroLink Navbar</title>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous"/>
+
+  <style>
+    .navbar-custom {
+      background: linear-gradient(to right, #1eb529ff, #064a12ff);
+      padding: 8px 25px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 45px;
+      min-height: 70px;
+    }
+
+    .logo-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .logo-container img {
+      height: 44px;
+      width: 44px;
+      border-radius: 50%;
+    }
+
+    .logo-title {
+      font-size: 0.8rem;
+      color: #fff;
+      font-weight: 500;
+      margin-top: 3px;
+      text-align: center;
+    }
+
+    .nav-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      flex: 1;
+      gap: 55px;
+    }
+
+    .simple-btn {
+      background: linear-gradient(to right, #5dc54dff, #279a0aff);
+      color: white;
+      border: none;
+      padding: 12px 22px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 1rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .simple-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+      background: linear-gradient(to right, #95D444, #6ca60aff);
+    }
+
+    .search_bar {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .search_bar input {
+      width: 400px; 
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 1rem;
+    }
+
+    .search-btn {
+      border-radius: 8px;
+      padding: 10px 20px;
+      background: linear-gradient(to right, #43a047, #2e7d32); /* changed color */
+      color: white;
+      border: none;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .search-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+      background: linear-gradient(to right, #2e7d32, #1b5e20);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="navbar-custom">
+    {% load static %}
+    <div class="logo-container">
+      <img src="{% static 'logo.jpg' %}" alt="Logo">
+      <div class="logo-title">Aryavarta E-kheti</div>
+    </div>
+
+    <div class="nav-buttons">
+      <a href="{% url 'home' %}">
+        <button class="simple-btn"><i class="fa-solid fa-house"></i> Home</button>
+      </a>
+
+            {% if role == "buyier" %}
+      <a href="{% url 'buyier' %}">
+        <button class="simple-btn"><i class="fa-solid fa-wheat-awn"></i> Buy Crop</button>
+      </a>
+
+      <form action="{% url 'buyier' %}" method="POST" class="search_bar">
+        {% csrf_token %}
+        
+        <input style="text-align:center;" id="typewriterInput" class="form-controls" name="search" type="search" placeholder="Search crops..." aria-label="Search">
+        <button class="search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+      </form>
+      {% endif %}
+
+
+      {% if role == "seller" %}
+      <a href="{% url 'sell_crop' %}">
+        <button class="simple-btn"><i class="fa-solid fa-wheat-awn"></i> Sell Crop</button>
+      </a>
+
+      <a href="{% url 'farm_monitiring' %}">
+        <button class="simple-btn"><i class="fa-solid fa-video"></i> Farm Monitoring</button>
+      </a>
+
+      <a href="{% url 'workers' %}">
+        <button class="simple-btn"><i class="fa-solid fa-users-viewfinder"></i> Worker Management</button>
+      </a>
+
+      {% endif %}
+        {% if role == "buyier" or role == "seller" %}
+      <a href="{% url 'storage' %}">
+        <button class="simple-btn"><i class="fa-solid fa-tractor"></i> Storage Management</button>
+      </a>
+
+      {% endif %}
+
+
+
+
+      {% if role == "buyier" or role == "seller" %}
+      <a href="#">
+        <button class="simple-btn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" ><i class="fa-solid fa-user"></i> Your Profile</button>
+      </a>
+      {% endif %}
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+</body>
+</html>
+<script>
+  const input = document.getElementById("typewriterInput");
+
+  // List of placeholder messages if you want rotation
+  const messages = [    "Search crops",
+    "Get correct pricing",
+    "Get good quality crop directly from farmers"];
+  let msgIndex = 0;
+  let charIndex = 0;
+  let typing = true;
+
+  function animatePlaceholder() {
+    const currentMessage = messages[msgIndex];
+    if (typing) {
+      charIndex++;
+      if (charIndex > currentMessage.length) {
+        typing = false;
+        setTimeout(animatePlaceholder, 1000); // Pause before deleting
+        return;
+      }
+    } else {
+      charIndex--;
+      if (charIndex < 0) {
+        typing = true;
+        msgIndex = (msgIndex + 1) % messages.length;
+        setTimeout(animatePlaceholder, 300); // Pause before typing next message
+        return;
+      }
+    }
+
+    input.setAttribute("placeholder", currentMessage.substring(0, charIndex) + (charIndex % 2 === 0 ? "|" : ""));
+    setTimeout(animatePlaceholder, typing ? 120 : 60); // Speed: slower when typing, faster when deleting
+  }
+
+  animatePlaceholder();
+</script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+<style>
+  .profile {
+    position: fixed;
+    top: 100px;
+    left: 30px;
+    font-size: 3.5rem;
+    color: #2e7d32;
+    cursor: pointer;
+    z-index: 1050;
+    transition: transform 0.3s ease;
+  }
+
+  .profile:hover {
+    transform: scale(1.1);
+    color: #66bb6a;
+  }
+
+  .offcanvas-start,
+  .offcanvas-end {
+    width: 370px;
+    background: rgba(255, 255, 255, 0.6); /* translucent */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* Safari support */
+    color: #1b5e20;
+    border-right: 5px solid rgba(129, 199, 132, 0.7);
+    box-shadow: 3px 0 20px rgba(0, 0, 0, 0.15);
+    animation: slideIn 0.6s ease;
+    border-radius: 0 10px 10px 0;
+  }
+
+  .offcanvas-header {
+    border-bottom: 1px solid #c8e6c9;
+    padding-bottom: 0.5rem;
+  }
+
+  .offcanvas-body {
+    padding: 1.5rem;
+    font-size: 1rem;
+  }
+
+  .profile-card {
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    padding: 1rem;
+    box-shadow: 0 4px 12px rgba(188, 188, 188, 0.78);
+    transform: translateY(20px);
+    opacity: 0;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+  }
+
+  .profile-card.visible {
+    animation: fadeSlideIn 0.6s ease forwards;
+    background-color: rgba(244, 238, 238, 0.32);
+  }
+
+  .profile-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+  }
+
+  @keyframes fadeSlideIn {
+    from {
+      transform: translateY(30px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .profile-card i {
+    font-size: 1.7rem;
+    margin-right: 15px;
+    padding: 10px;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    text-align: center;
+    line-height: 25px;
+    color: white;
+  }
+
+  .icon-green { background: linear-gradient(45deg, #66bb6a, #388e3c); }
+  .icon-blue { background: linear-gradient(45deg, #42a5f5, #1e88e5); }
+  .icon-orange { background: linear-gradient(45deg, #ffa726, #fb8c00); }
+  .icon-purple { background: linear-gradient(45deg, #ab47bc, #8e24aa); }
+  .icon-red { background: linear-gradient(45deg, #ef5350, #c62828); }
+
+  .info-text { flex: 1; }
+
+  .info-label {
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: #444;
+  }
+
+  .info-value {
+    font-size: 1rem;
+    color: #2e7d32;
+  }
+
+  .logout-container {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .logout-btn {
+    display: inline-block;
+    padding: 10px 18px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(135deg, #ff1744, #d50000);
+    border: none;
+    border-radius: 50px;
+    transition: all 0.4s ease;
+    opacity: 0;
+    animation: fadeIn 1.6s ease forwards;
+    animation-delay: 1.4s;
+  }
+
+  .logout-btn:hover {
+    transform: scale(1.05);
+    background: linear-gradient(135deg, #ff5252, #b71c1c);
+    box-shadow: 0 4px 10px rgba(255, 0, 0, 0.3);
+  }
+
+  @keyframes slideIn {
+    from { transform: translateX(-100%); opacity: 0; }
+    to { transform: translateX(0%); opacity: 1; }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+</style>
+
+<!-- Offcanvas Panel -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasRightLabel">
+      <i class="bi bi-person-badge-fill me-2"></i> Your Profile
+    </h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+
+  <div class="offcanvas-body">
+    <div class="profile-card">
+      <i class="bi bi-person-fill icon-green"></i>
+      <div class="info-text">
+        <div class="info-label">Username</div>
+        <div class="info-value">{{ user.username|title }}</div>
+      </div>
+    </div>
+
+    <div class="profile-card">
+      <i class="bi bi-envelope-fill icon-blue"></i>
+      <div class="info-text">
+        <div class="info-label">Email</div>
+        <div class="info-value">{{ user.email }}</div>
+      </div>
+    </div>
+
+    <div class="profile-card">
+      <i class="bi bi-telephone-fill icon-orange"></i>
+      <div class="info-text">
+        <div class="info-label">Phone</div>
+        <div class="info-value">{{ phone }}</div>
+      </div>
+    </div>
+
+    <div class="profile-card">
+      <i class="bi bi-person-vcard-fill icon-purple"></i>
+      <div class="info-text">
+        <div class="info-label">Role</div>
+        <div class="info-value">{{ role|title }}</div>
+      </div>
+    </div>
+
+    <div class="profile-card">
+      {% if user.is_superuser %}
+        <i class="bi bi-shield-lock-fill icon-red"></i>
+        <div class="info-text">
+          <div class="info-label">Access Level</div>
+          <div class="info-value"><strong>Admin</strong></div>
+        </div>
+      {% else %}
+        <i class="bi bi-person-lines-fill icon-red"></i>
+        <div class="info-text">
+          <div class="info-label">Access Level</div>
+          <div class="info-value"><strong>Regular User</strong></div>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="logout-container">
+      <a href="{% url 'login_signup' %}" class="logout-btn">
+        <i class="bi bi-box-arrow-right me-2"></i> Logout
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Animation trigger script -->
+<script>
+  const offcanvasEl = document.getElementById('offcanvasRight');
+  offcanvasEl.addEventListener('shown.bs.offcanvas', () => {
+    document.querySelectorAll('.profile-card').forEach((card, index) => {
+      card.classList.remove('visible');
+      void card.offsetWidth; // trigger reflow
+      card.classList.add('visible');
+      card.style.animationDelay = `${0.2 + index * 0.2}s`;
+    });
+  });
+</script>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
