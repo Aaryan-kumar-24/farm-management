@@ -277,19 +277,17 @@ def video_feed(request):
     return StreamingHttpResponse(gen(camera_instance),
                                  content_type='multipart/x-mixed-replace; boundary=frame')
 
-
 def object_names_stream(request):
     def event_stream():
         while True:
             with camera_lock:
-                _, objects = camera_instance.get_frame_and_objects()  # returns list like ['PERSON'] or []
-
-            # Only send email if required
+                _, objects = camera_instance.get_frame_and_objects()
+            
+            print("DEBUG >>> Objects detected:", objects)  # 👈 Add this
             if set(objects) & {'PERSON', 'COW'}:
                 send_test_email()
                 print("Alert Sent:", objects)
 
-            # Send current object list to frontend
             yield f"data: {','.join(objects)}\n\n"
             time.sleep(1)
 
@@ -300,8 +298,9 @@ from django.core.mail import send_mail
 from django.conf import settings
 
 def send_test_email():
-    subject = 'Alert go to farm'
-    message = 'check the camera or go to your farm'
+    subject = "🚨⚠️🔔 Security Warning: Unusual Activity (Animal/Theaf) Spotted on Your Farm 🚜🐾"
+    message = "⚠️ Immediate attention required! 🚨 Visit your farm or check the camera feed now. 🔍👀"
+
     from_email = settings.EMAIL_HOST_USER
     recipient_list = ['skilldevelopnment@gmail.com']  # Change to your target email
 
@@ -394,11 +393,14 @@ def workers(request):
     # Handle form submission to capture new user's face
     if request.GET.get('start') == 'true':
         new = request.GET.get('new')
-        if new:  # Only if a name is provided
-            video_url = "http://192.168.6.199:8080/video"
+        if(new!=''):
+
+      
+            
+            video_url = "http://10.144.127.65:8080/video"
             frs.capture_faces(new, video_url)  # Capture images for new person
             frs.train_model()  # Retrain face recognizer with all data
-
+        return redirect('workers')
     # Render page whether form is submitted or not
   
     if request.method == "POST" and 'delete_id' in request.POST:
@@ -452,7 +454,7 @@ def workers(request):
 
 def gen_frames():  # Generator to stream video frame by frame
     import cv2
-    cap = cv2.VideoCapture("http://192.168.6.199:8080/video")
+    cap = cv2.VideoCapture("http://10.144.127.65:8080/video")
 
     while True:
         success, frame = cap.read()

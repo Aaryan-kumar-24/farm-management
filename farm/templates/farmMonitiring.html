@@ -135,6 +135,44 @@ margin-left:20px;
       margin-top: 3px;
       text-align: center;
     }
+    /* Object Detection Button - Improved */
+#object-list {
+    min-width: 320px;
+    padding: 15px 25px;
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #fff;
+    text-align: center;
+    border-radius: 50px;
+    background: linear-gradient(135deg, #ff512f, #dd2476);
+    box-shadow: 0 0 20px rgba(255, 50, 50, 0.6);
+    cursor: default;
+    transition: all 0.4s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Pulse glow when alert */
+#object-list.alert {
+    animation: pulseAlert 1.5s infinite;
+}
+
+@keyframes pulseAlert {
+    0% { box-shadow: 0 0 15px rgba(255, 50, 50, 0.6); transform: scale(1); }
+    50% { box-shadow: 0 0 35px rgba(255, 0, 0, 1); transform: scale(1.08); }
+    100% { box-shadow: 0 0 15px rgba(255, 50, 50, 0.6); transform: scale(1); }
+}
+
+/* Safe mode */
+#object-list.safe {
+    background: linear-gradient(135deg, #00c851, #007e33);
+    box-shadow: 0 0 20px rgba(0, 200, 80, 0.6);
+}
+
 </style>
 
 
@@ -156,46 +194,46 @@ margin-left:20px;
   </div>
 <div class="monitiring">
 <div class="monitiring_video">
+
+
     <img src="{% url 'video_feed' %}" width="800" height="500"  ></img> 
       </div>
-      
-    <div class="monitiring_object">
-<h1>Object Found is </h1>
-<button class="display" id="object-list" >
-       {{ objects }}
-    </button>
-  
-</div></div>
+<div class="monitiring_object">
+  <h1>Object Found:</h1>
+  <div id="object-list">
+    <span>Waiting...</span>
+  </div>
+</div>
+
+</div>
 
 
 
  
 
  
+<script>
+    const evtSource = new EventSource("{% url 'object_names_stream' %}");
+    evtSource.onmessage = function(event) {
+        const objectList = event.data.split(",");
+        const listContainer = document.getElementById("object-list");
 
-    <script>
-        const evtSource = new EventSource("{% url 'object_names_stream' %}");
-        evtSource.onmessage = function(event) {
-            const objectList = event.data.split(",");
-            const listContainer = document.getElementById("object-list");
-            listContainer.innerHTML = ""; // clear old list
-            objectList.forEach(name => {
-                if (name.trim() !== "") {
-                    const li = document.createElement("h1");
-                    li.textContent = name.trim();
-                    listContainer.appendChild(li);
-                }
-            });
-        };
-    </script>
+        if (!event.data || event.data.trim() === "") {
+            listContainer.innerHTML = "✅ Safe - No objects detected";
+            listContainer.classList.remove("alert");
+            listContainer.classList.add("safe");
+        } else {
+            listContainer.innerHTML = "🚨 Alert: " + objectList.join(", ");
+            listContainer.classList.remove("safe");
+            listContainer.classList.add("alert");
+        }
+    };
 
-
-
-
-
-
-
-
+    evtSource.onerror = function(err) {
+        console.error("SSE connection failed:", err);
+        document.getElementById("object-list").innerHTML = "⚠️ Connection lost";
+    };
+</script>
 
 
-{% include "footer.html"  %} 
+{% include "footer.html"  %}

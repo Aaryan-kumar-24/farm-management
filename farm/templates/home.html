@@ -8,7 +8,7 @@
 /* Video & Logo Styles */
 .video {
   margin: 10px;
-  border-radius: 100px;
+  border-radius: 20px;
   margin-left: 495px;
   height: 568px;
   width: 1005px;
@@ -25,17 +25,75 @@
 
 .logo1 {
   position: absolute;
-  height: 140px;
-  width: 300px;
-  top: 460px;
-  left: 180px;
+  height: 90vh;
+  top: 2100px;
+  left: 380px;
   margin-top: 60px;
-  transform: rotate(20deg);
+}
+.logoo {
+  
+  border-radius: 20px;
+  position: absolute;
+  height: 280px;
+  width: 480px;
+  top: 2100px;
+  left: 1010px;
+  margin-top: 60px;
+}
+.logoo1 {
+  
+  border-radius: 20px;
+  position: absolute;
+  height: 240px;
+  width: 400px;
+  top: 2550px;
+  left: 100px;
+  margin-top: 60px;
+}
+.logoo2 {
+  
+  border-radius: 20px;
+  position: absolute;
+  width: 260px;
+  height: 380px;
+  top: 2100px;
+  left: 160px;
+  margin-top: 60px;
+}
+.logoo3 {
+  
+  border-radius: 20px;
+  position: absolute;
+  width: 260px;
+  height: 360px;
+  top: 2480px;
+  left: 900px;
+  margin-top: 60px;
+}
+
+.logoo, .logoo3{
+  transition: all 0.35s ease-in; /* smooth scaling + centering */
+}
+
+/* On hover → scale and center */
+.logoo:hover, 
+.logoo3:hover {
+  transform: translate(-30%) scale(1.25); /* move to center + scale */
+}
+
+.logoo1, .logoo2{
+  transition: all 0.35s ease-in; /* smooth scaling + centering */
+}
+
+/* On hover → scale and center */
+.logoo1:hover, 
+.logoo2:hover {
+  transform: translate(30%) scale(1.25); /* move to center + scale */
 }
 
 .logos {
   height: 80px;
-  width: 150px;
+  width: 170px;
   position: fixed;
   top: 650px;
   right: -20px;
@@ -56,6 +114,7 @@
 
 
 .logo2 {
+  color:green;
   position: absolute;
   height: 400px;
   width: 600px;
@@ -79,7 +138,7 @@
   font-size: 4.5rem;
   font-weight: bold;
   padding-left: 500px;
-  padding-top: 150px;
+  padding-top: 960px;
   color: #2e7d32;
   animation: fadeIn 2s ease-in-out;
 }
@@ -99,7 +158,7 @@
   perspective: 1000px;
   height: 340px;
   width: 100%;
-transition: transform 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+transition: transform 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.5s;
 
 }
 
@@ -111,7 +170,7 @@ transition: transform 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   position: relative;
   width: 100%;
   height: 100%;
-  transition: transform 0.8s;
+  transition: transform 0.8s 1s;
   transform-style: preserve-3d;
 }
 
@@ -283,6 +342,42 @@ transition: transform 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     color: #8bc34a;
     margin-right: 8px;
   }
+  .small-card {
+  position: absolute;   
+  top: 550px;           
+  left:25px;          
+  width: auto;         
+  border:1px solid white;
+  border-radius: 8px;
+}
+
+.small-card .card-body {
+  padding: 10px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.small-card .item {
+  text-align: center;
+  margin: 0 10px;
+}
+
+.small-card i {
+  font-size: 3rem;
+  color: green;
+  display: block;
+}
+
+.small-card h6 {
+  font-weight: 600;
+  color: #166534;
+  font-size: 0.9rem;
+  margin: 5px 0 0 0;
+}
+
+
+
 </style>
 
 {% load static %}
@@ -290,8 +385,36 @@ transition: transform 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 <!-- Logos and Header -->
 <img src="{% static 'logo.jpg' %}" class="logo">
 <p class="logo2">Aryavarta E-kheti</p>
-<img src="{% static 'arrow.png' %}" class="logo1">
+<section class="why-cards">
+  <div class="card small-card">
+    <div class="card-body d-flex justify-content-between text-center">
+            <div class="item">
+        <i class="fas fa-seedling"></i>
+        <h6 class="mt-2">Farm Monitoring</h6>
+      </div>
 
+      <div class="item">
+        <i class="fas fa-users-cog"></i>
+        <h6 class="mt-2">Worker Management</h6>
+      </div>
+
+      <div class="item">
+        <i class="fas fa-shopping-basket"></i>
+        <h6 class="mt-2">Sell Crop Directly</h6>
+      </div>
+    </div>
+  </div>
+</section>
+
+<img src="{% static 'india.png' %}" class="logo1">
+
+<img src="{% static 'cr.jpg' %}" class="logoo">
+
+<img src="{% static 'cr3.jpg' %}" class="logoo2">
+
+<img src="{% static 'cr1.jpg' %}" class="logoo1">
+
+<img src="{% static 'cr4.jpg' %}" class="logoo3">
 <!-- Video Banner -->
 <video class="video" controls autoplay muted loop>
   <source src="{% static 'video.mp4' %}" />
@@ -366,7 +489,7 @@ transition: transform 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     <div class="art-card-inner">
       <div class="art-card-front">
         <video autoplay muted loop>
-          <source src="{% static 'video.mp4' %}" />
+          <source src="{% static 'SELL.mp4' %}" />
         </video>
       </div>
       <div class="art-card-back">
@@ -381,8 +504,21 @@ transition: transform 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
   </div>
 </div>
+<div style="text-align:center; margin-top:150px;">
 
-<img src="{% static 'chats.png' %}" class="logos" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  <p style="font-size:48px; font-weight:900; color:#15803d; margin-bottom:12px; line-height:1.4;">
+   <span style="color:#16a34a;">Connecting Every Farmer</span>, 
+    <span style="color:#22c55e;">Cultivating India’s Growth</span>
+  </p>
+
+  <p style="font-size:30px; font-weight:600; color:green; line-height:1.6; max-width:1500px; margin:0 auto;">
+    👨‍🌾 Farmers united make India stronger 🌱 better harvests, 💰 higher incomes
+  </p>
+
+</div>
+
+
+<img src="{% static 'chat.png' %}" class="logos" data-bs-toggle="modal" data-bs-target="#exampleModal">
 
 
 
