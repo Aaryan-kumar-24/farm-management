@@ -5,7 +5,7 @@ import cv2
 class VideoCamera:
     def __init__(self):
         self.thres = 0.45  # Confidence threshold for object detection
-        self.cap = cv2.VideoCapture("http://10.144.127.65:8080/video")
+        self.cap = cv2.VideoCapture("http://192.168.58.164:8080/video")
         self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
         self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
         self.cap.set(cv2.CAP_PROP_BRIGHTNESS, 70)

@@ -40,6 +40,15 @@ urlpatterns = [
       path('', views.login_signup, name="login_signup"),
       path('buyier/',views.buyier,name="buyier"),
       path('video_feed/', views.video_feed, name='video_feed'),
+      
+      path('storage_management/', views.storage_management, name='storage_management'),
+      
+      path('profit_loss/', views.profit_loss, name='profit_loss'),
+      
+      path('to_do_list/', views.to_do_list, name='to_do_list'),
+      
+      path('quantity_tracker/', views.quantity_tracker, name='quantity_tracker'),
+
         path('object_names_stream/', views.object_names_stream, name='object_names_stream'),
 
 ]

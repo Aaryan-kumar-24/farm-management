@@ -235,6 +235,55 @@ def farmMonitiring(request):
 
 
 @login_required(login_url='login_signup')
+def storage_management(request):
+    user = request.user
+    phone = user.first_name    
+    role = user.last_name 
+    buyers= Buyier.objects.filter(farmer_name=request.user.username)
+
+    return render(request, 'storage_management.html', {'buyers': buyers,'user': user,'phone':phone,'role':role})
+
+@login_required(login_url='login_signup')
+def profit_loss(request):
+    user = request.user
+    phone = user.first_name    
+    role = user.last_name 
+    buyers= Buyier.objects.filter(farmer_name=request.user.username)
+
+    return render(request, 'profit_loss.html', {'buyers': buyers,'user': user,'phone':phone,'role':role})
+
+
+
+@login_required(login_url='login_signup')
+def to_do_list(request):
+    user = request.user
+    phone = user.first_name    
+    role = user.last_name 
+    buyers= Buyier.objects.filter(farmer_name=request.user.username)
+
+    return render(request, 'to_do_list.html', {'buyers': buyers,'user': user,'phone':phone,'role':role})
+
+
+
+@login_required(login_url='login_signup')
+def quantity_tracker(request):
+    user = request.user
+    phone = user.first_name    
+    role = user.last_name 
+    buyers= Buyier.objects.filter(farmer_name=request.user.username)
+
+    return render(request, 'quantity_tracker.html', {'buyers': buyers,'user': user,'phone':phone,'role':role})
+
+
+
+
+
+
+
+
+
+
+@login_required(login_url='login_signup')
 def storage(request):
     if request.method == 'POST':
         delete_id = request.POST.get('delete_id')
@@ -397,7 +446,7 @@ def workers(request):
 
       
             
-            video_url = "http://10.144.127.65:8080/video"
+            video_url = "http://192.168.58.164:8080/video"
             frs.capture_faces(new, video_url)  # Capture images for new person
             frs.train_model()  # Retrain face recognizer with all data
         return redirect('workers')
@@ -454,7 +503,7 @@ def workers(request):
 
 def gen_frames():  # Generator to stream video frame by frame
     import cv2
-    cap = cv2.VideoCapture("http://10.144.127.65:8080/video")
+    cap = cv2.VideoCapture("http://192.168.58.164:8080/video")
 
     while True:
         success, frame = cap.read()
@@ -491,3 +540,6 @@ def gen_frames():  # Generator to stream video frame by frame
 
 def video_feed(request):
     return StreamingHttpResponse(gen_frames(), content_type='multipart/x-mixed-replace; boundary=frame')
+
+
+

@@ -138,7 +138,7 @@
   font-size: 4.5rem;
   font-weight: bold;
   padding-left: 500px;
-  padding-top: 960px;
+  padding-top: 60px;
   color: #2e7d32;
   animation: fadeIn 2s ease-in-out;
 }
@@ -405,7 +405,7 @@ transition: transform 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.5s;
     </div>
   </div>
 </section>
-
+{% comment %} 
 <img src="{% static 'india.png' %}" class="logo1">
 
 <img src="{% static 'cr.jpg' %}" class="logoo">
@@ -414,7 +414,7 @@ transition: transform 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.5s;
 
 <img src="{% static 'cr1.jpg' %}" class="logoo1">
 
-<img src="{% static 'cr4.jpg' %}" class="logoo3">
+<img src="{% static 'cr4.jpg' %}" class="logoo3"> {% endcomment %}
 <!-- Video Banner -->
 <video class="video" controls autoplay muted loop>
   <source src="{% static 'video.mp4' %}" />
@@ -504,7 +504,7 @@ transition: transform 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.5s;
 
   </div>
 </div>
-<div style="text-align:center; margin-top:150px;">
+{% comment %} <div style="text-align:center; margin-top:150px;">
 
   <p style="font-size:48px; font-weight:900; color:#15803d; margin-bottom:12px; line-height:1.4;">
    <span style="color:#16a34a;">Connecting Every Farmer</span>, 
@@ -515,7 +515,7 @@ transition: transform 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.5s;
     👨‍🌾 Farmers united make India stronger 🌱 better harvests, 💰 higher incomes
   </p>
 
-</div>
+</div> {% endcomment %}
 
 
 <img src="{% static 'chat.png' %}" class="logos" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -523,7 +523,7 @@ transition: transform 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.5s;
 
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleMod al" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content" >
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -764,6 +764,18 @@ transition: transform 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.5s;
   100% { transform: rotate(360deg); }
 }
 </style>
+
+
+
+
+
+<a href="{% url 'profit_loss' %}" class="btn btn-primary">
+ profit
+</a>
+
+
+
+
 
 <p class="titles">🤝 Let’s Talk! 📩</p>
 <!-- Swiper Chat Cards -->
