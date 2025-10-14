@@ -1,18 +1,15 @@
+{% include "header.html" %}
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KisanProfit Tracker - Indian Agriculture Financial Management</title>
+    <title>Crop Inventory & Transaction Management</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+      
 
         :root {
             --primary-green: #2e7d32;
@@ -22,8 +19,6 @@
             --accent-orange: #ff9800;
             --light-orange: #ffe0b2;
             --soil-brown: #795548;
-            --sky-blue: #87ceeb;
-            --sun-yellow: #ffc107;
             --text-dark: #333;
             --text-light: #f5f5f5;
             --white: #ffffff;
@@ -31,34 +26,12 @@
             --transition: all 0.3s ease;
         }
 
-        body {
-            background: linear-gradient(135deg, var(--light-green) 0%, var(--sky-blue) 100%);
-            min-height: 100vh;
-            padding: 20px;
-            color: var(--text-dark);
-        }
 
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
-        header {
-            text-align: center;
-            padding: 30px 0;
-            margin-bottom: 30px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            box-shadow: var(--shadow);
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
 
         .logo i {
             font-size: 2.5rem;
@@ -70,17 +43,13 @@
         }
 
         h1 {
-            font-size: 2.8rem;
+            font-size: 2.5rem;
             color: var(--dark-green);
             margin-bottom: 10px;
-            background: linear-gradient(45deg, var(--primary-green), var(--accent-orange));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
         .subtitle {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: var(--soil-brown);
             max-width: 700px;
             margin: 0 auto;
@@ -93,7 +62,7 @@
             margin-bottom: 30px;
         }
 
-        @media (max-width: 992px) {
+        @media (max-width: 768px) {
             .dashboard {
                 grid-template-columns: 1fr;
             }
@@ -102,14 +71,17 @@
         .card {
             background: var(--white);
             border-radius: 15px;
-            box-shadow: var(--shadow);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
             padding: 25px;
+            margin-bottom:50px;
+            margin-top:50px;
             transition: var(--transition);
+
         }
 
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
         }
 
         .card-header {
@@ -131,30 +103,8 @@
             color: var(--dark-green);
         }
 
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        @media (max-width: 576px) {
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
         .form-group {
             margin-bottom: 20px;
-        }
-
-        .form-group.full-width {
-            grid-column: span 2;
-        }
-
-        @media (max-width: 576px) {
-            .form-group.full-width {
-                grid-column: span 1;
-            }
         }
 
         label {
@@ -167,7 +117,7 @@
             gap: 8px;
         }
 
-        input, select {
+        input, select, textarea {
             width: 100%;
             padding: 14px 15px;
             border: 2px solid #e0e0e0;
@@ -177,7 +127,7 @@
             background: #fafafa;
         }
 
-        input:focus, select:focus {
+        input:focus, select:focus, textarea:focus {
             outline: none;
             border-color: var(--secondary-green);
             box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
@@ -194,7 +144,6 @@
             font-size: 1.1rem;
             font-weight: 600;
             transition: var(--transition);
-            display: inline-flex;
             align-items: center;
             gap: 10px;
             box-shadow: var(--shadow);
@@ -209,7 +158,11 @@
             background: linear-gradient(45deg, var(--soil-brown), #5d4037);
         }
 
-        .summary-stats {
+        .btn-danger {
+            background: linear-gradient(45deg, #f44336, #d32f2f);
+        }
+
+        .inventory-summary {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
@@ -241,45 +194,54 @@
             opacity: 0.9;
         }
 
-        .transactions-table {
+        .inventory-table, .transactions-table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
         }
 
-        .transactions-table th {
+        .inventory-table th, .transactions-table th {
             background: var(--primary-green);
             color: var(--white);
             text-align: left;
             padding: 15px;
         }
 
-        .transactions-table td {
+        .inventory-table td, .transactions-table td {
             padding: 14px 15px;
             border-bottom: 1px solid #e0e0e0;
         }
 
-        .transactions-table tr:nth-child(even) {
+        .inventory-table tr:nth-child(even), .transactions-table tr:nth-child(even) {
             background-color: #f9f9f9;
         }
 
-        .transactions-table tr:hover {
+        .inventory-table tr:hover, .transactions-table tr:hover {
             background-color: var(--light-green);
-        }
-
-        .profit-positive {
-            color: #4caf50;
-            font-weight: 600;
-        }
-
-        .profit-negative {
-            color: #f44336;
-            font-weight: 600;
         }
 
         .action-cell {
             display: flex;
             gap: 10px;
+        }
+
+        .sell-btn {
+            background: var(--accent-orange);
+            color: var(--text-dark);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: var(--transition);
+        }
+
+        .sell-btn:hover {
+            background: #ffa726;
+            transform: translateY(-2px);
         }
 
         .delete-btn {
@@ -295,56 +257,87 @@
             background: #d32f2f;
         }
 
-        .chart-container {
-            height: 400px;
-            margin-top: 20px;
-            position: relative;
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            overflow-y: auto;
         }
 
-        .year-summary {
-            background: linear-gradient(135deg, var(--soil-brown), #5d4037);
-            color: var(--white);
-            text-align: center;
-            padding: 40px;
+        .modal-content {
+            background: var(--white);
+            margin: 50px auto;
+            padding: 30px;
             border-radius: 15px;
-            box-shadow: var(--shadow);
+            max-width: 600px;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
 
-        .year-summary h2 {
-            font-size: 2.2rem;
-            margin-bottom: 20px;
-        }
-
-        .total-profit {
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin: 25px 0;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .profit-indicator {
-            display: inline-block;
-            padding: 12px 25px;
-            border-radius: 30px;
-            font-weight: 600;
-            font-size: 1.2rem;
-            margin: 20px 0;
-        }
-
-        .profit-positive-bg {
-            background: linear-gradient(45deg, #4caf50, #2e7d32);
-        }
-
-        .profit-negative-bg {
-            background: linear-gradient(45deg, #f44336, #d32f2f);
-        }
-
-        footer {
-            text-align: center;
-            padding: 30px 0;
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            cursor: pointer;
             color: var(--soil-brown);
-            font-size: 0.9rem;
-            margin-top: 30px;
+            background: none;
+            border: none;
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--light-green);
+        }
+
+        .modal-header h2 {
+            color: var(--primary-green);
+            font-size: 1.8rem;
+        }
+
+        .crop-icons {
+            display: flex;
+            justify-content: space-around;
+            margin: 25px 0;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .crop-icon {
+            text-align: center;
+            padding: 15px;
+            border-radius: 12px;
+            background: var(--light-green);
+            width: 100px;
+            transition: var(--transition);
+        }
+
+        .crop-icon:hover {
+            transform: translateY(-5px);
+            background: var(--secondary-green);
+            color: var(--white);
+        }
+
+        .crop-icon i {
+            font-size: 2rem;
+            color: var(--primary-green);
+            margin-bottom: 10px;
+        }
+
+        .crop-icon:hover i {
+            color: var(--white);
+        }
+
+        .crop-icon span {
+            font-size: 0.8rem;
+            font-weight: 600;
         }
 
         .empty-state {
@@ -359,148 +352,103 @@
             color: #bdbdbd;
         }
 
-        .category-icons {
-            display: flex;
-            justify-content: space-around;
-            margin: 20px 0;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .category-icon {
-            text-align: center;
-            padding: 15px;
-            border-radius: 10px;
-            background: var(--light-green);
-            width: 100px;
-        }
-
-        .category-icon i {
-            font-size: 2rem;
+        .quantity-display {
+            font-size: 1.2rem;
+            font-weight: 700;
             color: var(--primary-green);
-            margin-bottom: 10px;
+            background: var(--light-green);
+            padding: 10px 15px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-top: 10px;
         }
 
-        .category-icon span {
-            font-size: 0.8rem;
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--light-green);
+        }
+
+        .tab {
+            padding: 15px 25px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--soil-brown);
+            border-bottom: 3px solid transparent;
+            transition: var(--transition);
+        }
+
+        .tab.active {
+            color: var(--primary-green);
+            border-bottom: 3px solid var(--primary-green);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
             display: block;
         }
 
-        .progress-container {
-            margin: 20px 0;
+        .transaction-type {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.8rem;
         }
 
-        .progress-bar {
-            height: 10px;
-            background: #e0e0e0;
-            border-radius: 5px;
-            overflow: hidden;
+        .transaction-harvest {
+            background: var(--light-green);
+            color: var(--dark-green);
         }
 
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary-green), var(--accent-orange));
-            border-radius: 5px;
+        .transaction-sale {
+            background: var(--light-orange);
+            color: var(--soil-brown);
         }
 
-        .progress-label {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 5px;
+        .quantity-positive {
+            color: var(--primary-green);
+            font-weight: 600;
+        }
+
+        .quantity-negative {
+            color: #f44336;
             font-weight: 600;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <div class="logo">
-                <i class="fas fa-tractor"></i>
-                <h1>KisanProfit Tracker</h1>
-            </div>
-            <p class="subtitle">Complete Financial Management Solution for Indian Farmers - Track Expenses, Income, and Annual Profits</p>
-            
-            <div class="category-icons">
-                <div class="category-icon">
-                    <i class="fas fa-seedling"></i>
-                    <span>Seeds</span>
-                </div>
-                <div class="category-icon">
-                    <i class="fas fa-wind"></i>
-                    <span>Fertilizer</span>
-                </div>
-                <div class="category-icon">
-                    <i class="fas fa-tools"></i>
-                    <span>Equipment</span>
-                </div>
-                <div class="category-icon">
-                    <i class="fas fa-hands-helping"></i>
-                    <span>Labor</span>
-                </div>
-                <div class="category-icon">
-                    <i class="fas fa-wheat-alt"></i>
-                    <span>Harvest</span>
-                </div>
-            </div>
-        </header>
 
         <div class="dashboard">
             <div class="card">
                 <div class="card-header">
                     <i class="fas fa-plus-circle"></i>
-                    <h2 class="card-title">Add New Transaction</h2>
+                    <h2 class="card-title">Add Harvested Crop</h2>
                 </div>
-                <form id="transaction-form">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="type">
-                                <i class="fas fa-exchange-alt"></i> Transaction Type
-                            </label>
-                            <select id="type" required>
-                                <option value="">Select type</option>
-                                <option value="expense">खर्चा (Expense)</option>
-                                <option value="income">आय (Income)</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="amount">
-                                <i class="fas fa-rupee-sign"></i> Amount (₹)
-                            </label>
-                            <input type="number" id="amount" placeholder="Enter amount" min="0" step="0.01" required>
-                        </div>
-                        <div class="form-group full-width">
-                            <label for="description">
-                                <i class="fas fa-file-alt"></i> Description
-                            </label>
-                            <input type="text" id="description" placeholder="e.g., Seeds for wheat cultivation, Sale of rice harvest" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="category">
-                                <i class="fas fa-tags"></i> Category
-                            </label>
-                            <select id="category" required>
-                                <option value="">Select category</option>
-                                <option value="seeds">बीज (Seeds)</option>
-                                <option value="fertilizer">उर्वरक (Fertilizer)</option>
-                                <option value="equipment">उपकरण (Equipment)</option>
-                                <option value="labor">श्रम (Labor)</option>
-                                <option value="harvest">फसल (Harvest Sale)</option>
-                                <option value="pesticide">कीटनाशक (Pesticide)</option>
-                                <option value="water">जल (Water)</option>
-                                <option value="transport">परिवहन (Transport)</option>
-                                <option value="storage">भंडारण (Storage)</option>
-                                <option value="other">अन्य (Other)</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="date">
-                                <i class="fas fa-calendar-alt"></i> Date
-                            </label>
-                            <input type="date" id="date" required>
-                        </div>
+                <form id="harvest-form">
+                    <div class="form-group">
+                        <label for="crop-name">
+                            <i class="fas fa-seedling"></i> Crop Name
+                        </label>
+                        <input type="text" id="crop-name" placeholder="e.g., Wheat, Rice, Corn" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="harvest-quantity">
+                            <i class="fas fa-weight-hanging"></i> Harvested Quantity (kg)
+                        </label>
+                        <input type="number" id="harvest-quantity" placeholder="Enter quantity" min="0" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="harvest-date">
+                            <i class="fas fa-calendar-alt"></i> Harvest Date
+                        </label>
+                        <input type="date" id="harvest-date" required>
                     </div>
                     <button type="submit">
-                        <i class="fas fa-save"></i> Add Transaction
+                        <i class="fas fa-save"></i> Add to Inventory
                     </button>
                 </form>
             </div>
@@ -508,181 +456,348 @@
             <div class="card">
                 <div class="card-header">
                     <i class="fas fa-chart-pie"></i>
-                    <h2 class="card-title">Financial Overview</h2>
+                    <h2 class="card-title">Inventory Overview</h2>
                 </div>
-                <div class="summary-stats">
+                <div class="inventory-summary">
                     <div class="stat-card">
-                        <i class="fas fa-arrow-up"></i>
-                        <div class="stat-value" id="total-income">₹0</div>
-                        <div class="stat-label">Total Income</div>
-                    </div>
-                    <div class="stat-card">
-                        <i class="fas fa-arrow-down"></i>
-                        <div class="stat-value" id="total-expenses">₹0</div>
-                        <div class="stat-label">Total Expenses</div>
+                        <i class="fas fa-boxes"></i>
+                        <div class="stat-value" id="total-crops">0</div>
+                        <div class="stat-label">Total Crops</div>
                     </div>
                     <div class="stat-card">
-                        <i class="fas fa-wallet"></i>
-                        <div class="stat-value" id="net-profit">₹0</div>
-                        <div class="stat-label">Net Profit</div>
+                        <i class="fas fa-weight"></i>
+                        <div class="stat-value" id="total-quantity">0 kg</div>
+                        <div class="stat-label">Total Quantity</div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-exchange-alt"></i>
+                        <div class="stat-value" id="total-transactions">0</div>
+                        <div class="stat-label">Transactions</div>
                     </div>
                 </div>
-                
-                <div class="progress-container">
-                    <div class="progress-label">
-                        <span>Profit Margin</span>
-                        <span id="profit-margin">0%</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="profit-progress" style="width: 0%"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header">
-                <i class="fas fa-chart-line"></i>
-                <h2 class="card-title">Financial Analytics</h2>
-            </div>
-            <div class="chart-container">
-                <canvas id="profitChart"></canvas>
             </div>
         </div>
 
         <div class="card">
             <div class="card-header">
                 <i class="fas fa-list"></i>
-                <h2 class="card-title">Transaction History</h2>
+                <h2 class="card-title">Crop Management</h2>
             </div>
-            <div id="transactions-container">
-                <table class="transactions-table">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Description</th>
-                            <th>Category</th>
-                            <th>Type</th>
-                            <th>Amount</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="transactions-body">
-                        <!-- Transactions will be added here dynamically -->
-                    </tbody>
-                </table>
-                <div id="empty-transactions" class="empty-state">
-                    <i class="fas fa-tractor"></i>
-                    <h3>No Transactions Yet</h3>
-                    <p>Add your first transaction to start tracking your agricultural profits</p>
+            
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('inventory')">Inventory</div>
+                <div class="tab" onclick="switchTab('transactions')">Transaction History</div>
+            </div>
+            
+            <div class="tab-content active" id="inventory-tab">
+                <div id="inventory-container">
+                    <table class="inventory-table">
+                        <thead>
+                            <tr>
+                                <th>Crop Name</th>
+                                <th>Harvest Date</th>
+                                <th>Total Quantity (kg)</th>
+                                <th>Remaining Quantity (kg)</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inventory-body">
+                            <!-- Inventory items will be added here dynamically -->
+                        </tbody>
+                    </table>
+                    <div id="empty-inventory" class="empty-state">
+                        <i class="fas fa-tractor"></i>
+                        <h3>No Crops in Inventory</h3>
+                        <p>Add your harvested crops to start tracking your agricultural inventory</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="transactions-tab">
+                <div id="transactions-container">
+                    <table class="transactions-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Crop Name</th>
+                                <th>Type</th>
+                                <th>Quantity (kg)</th>
+                                <th>Destination/Reason</th>
+                                <th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactions-body">
+                            <!-- Transactions will be added here dynamically -->
+                        </tbody>
+                    </table>
+                    <div id="empty-transactions" class="empty-state">
+                        <i class="fas fa-receipt"></i>
+                        <h3>No Transactions Recorded</h3>
+                        <p>Add crops and record sales to view transaction history</p>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="card year-summary">
-            <h2><i class="fas fa-calendar-check"></i> Annual Profit Summary</h2>
-            <p>Based on all transactions recorded this year</p>
-            <div class="total-profit" id="year-profit">₹0</div>
-            <div class="profit-indicator" id="profit-indicator">
-                No data available
+        <!-- Sell Modal -->
+        <div id="sell-modal" class="modal">
+            <div class="modal-content">
+                <button class="close-modal" onclick="closeSellModal()">&times;</button>
+                <div class="modal-header">
+                    <h2><i class="fas fa-shopping-cart"></i> Sell Crop</h2>
+                </div>
+                <form id="sell-form">
+                    <input type="hidden" id="sell-crop-id">
+                    <div class="form-group">
+                        <label for="sell-quantity">
+                            <i class="fas fa-weight-hanging"></i> Quantity to Sell (kg)
+                        </label>
+                        <input type="number" id="sell-quantity" placeholder="Enter quantity" min="0" step="0.01" required>
+                        <div class="quantity-display">
+                            Available: <span id="available-quantity">0 kg</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="sell-destination">
+                            <i class="fas fa-map-marker-alt"></i> Destination/Reason
+                        </label>
+                        <select id="sell-destination" required>
+                            <option value="">Select destination</option>
+                            <option value="local_market">Local Market</option>
+                            <option value="wholesale">Wholesale Dealer</option>
+                            <option value="export">Export</option>
+                            <option value="processing">Processing Unit</option>
+                            <option value="personal_use">Personal Use</option>
+                            <option value="seed">Seed Storage</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="other-destination-group" style="display: none;">
+                        <label for="other-destination">
+                            <i class="fas fa-edit"></i> Specify Destination
+                        </label>
+                        <input type="text" id="other-destination" placeholder="Enter destination details">
+                    </div>
+                    <div class="form-group">
+                        <label for="sell-notes">
+                            <i class="fas fa-sticky-note"></i> Additional Notes
+                        </label>
+                        <textarea id="sell-notes" rows="3" placeholder="Any additional information about this sale"></textarea>
+                    </div>
+                    <button type="submit">
+                        <i class="fas fa-check-circle"></i> Confirm Sale
+                    </button>
+                </form>
             </div>
         </div>
 
-        <footer>
-            <p>KisanProfit Tracker &copy; 2023 - Empowering Indian Farmers with Financial Intelligence</p>
-            <p>Designed for the prosperity of Indian agriculture</p>
-        </footer>
+
     </div>
 
     <script>
-        // Sample data for demonstration
+        // Crop inventory data
+        let crops = [];
         let transactions = [];
-        let currentYear = new Date().getFullYear();
+        let currentSellCropId = null;
 
         // DOM Elements
-        const transactionForm = document.getElementById('transaction-form');
+        const harvestForm = document.getElementById('harvest-form');
+        const inventoryBody = document.getElementById('inventory-body');
         const transactionsBody = document.getElementById('transactions-body');
+        const emptyInventory = document.getElementById('empty-inventory');
         const emptyTransactions = document.getElementById('empty-transactions');
-        const totalIncomeEl = document.getElementById('total-income');
-        const totalExpensesEl = document.getElementById('total-expenses');
-        const netProfitEl = document.getElementById('net-profit');
-        const yearProfitEl = document.getElementById('year-profit');
-        const profitIndicatorEl = document.getElementById('profit-indicator');
-        const profitMarginEl = document.getElementById('profit-margin');
-        const profitProgressEl = document.getElementById('profit-progress');
-
-        // Chart instance
-        let profitChart;
+        const sellForm = document.getElementById('sell-form');
+        const sellModal = document.getElementById('sell-modal');
+        const sellDestination = document.getElementById('sell-destination');
+        const otherDestinationGroup = document.getElementById('other-destination-group');
 
         // Set today's date as default
-        document.getElementById('date').valueAsDate = new Date();
+        document.getElementById('harvest-date').valueAsDate = new Date();
 
-        // Form submission handler
-        transactionForm.addEventListener('submit', function(e) {
+        // Form submission handler for adding harvested crop
+        harvestForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const type = document.getElementById('type').value;
-            const amount = parseFloat(document.getElementById('amount').value);
-            const description = document.getElementById('description').value;
-            const category = document.getElementById('category').value;
-            const date = document.getElementById('date').value;
+            const cropName = document.getElementById('crop-name').value;
+            const harvestQuantity = parseFloat(document.getElementById('harvest-quantity').value);
+            const harvestDate = document.getElementById('harvest-date').value;
             
-            if (type && amount && description && category && date) {
-                const transaction = {
+            if (cropName && harvestQuantity && harvestDate) {
+                const crop = {
                     id: Date.now(),
-                    type,
-                    amount,
-                    description,
-                    category,
-                    date
+                    name: cropName,
+                    harvestDate: harvestDate,
+                    totalQuantity: harvestQuantity,
+                    remainingQuantity: harvestQuantity,
+                    sales: []
                 };
                 
+                crops.push(crop);
+                
+                // Add to transactions
+                const transaction = {
+                    id: Date.now(),
+                    date: harvestDate,
+                    cropName: cropName,
+                    type: 'harvest',
+                    quantity: harvestQuantity,
+                    destination: 'Harvest',
+                    notes: 'Initial harvest'
+                };
                 transactions.push(transaction);
+                
                 updateUI();
-                transactionForm.reset();
-                document.getElementById('date').valueAsDate = new Date();
+                harvestForm.reset();
+                document.getElementById('harvest-date').valueAsDate = new Date();
             }
         });
 
-        // Delete transaction
-        function deleteTransaction(id) {
-            transactions = transactions.filter(transaction => transaction.id !== id);
-            updateUI();
+        // Form submission handler for selling crop
+        sellForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const sellQuantity = parseFloat(document.getElementById('sell-quantity').value);
+            const destination = document.getElementById('sell-destination').value;
+            const otherDestination = document.getElementById('other-destination').value;
+            const notes = document.getElementById('sell-notes').value;
+            
+            const crop = crops.find(c => c.id === currentSellCropId);
+            
+            if (crop && sellQuantity <= crop.remainingQuantity && sellQuantity > 0) {
+                const finalDestination = destination === 'other' ? otherDestination : destination;
+                
+                const sale = {
+                    id: Date.now(),
+                    date: new Date().toISOString().split('T')[0],
+                    quantity: sellQuantity,
+                    destination: finalDestination,
+                    notes: notes
+                };
+                
+                crop.sales.push(sale);
+                crop.remainingQuantity -= sellQuantity;
+                
+                // Add to transactions
+                const transaction = {
+                    id: Date.now(),
+                    date: new Date().toISOString().split('T')[0],
+                    cropName: crop.name,
+                    type: 'sale',
+                    quantity: sellQuantity,
+                    destination: finalDestination,
+                    notes: notes
+                };
+                transactions.push(transaction);
+                
+                updateUI();
+                closeSellModal();
+            } else {
+                alert('Invalid quantity or crop not found!');
+            }
+        });
+
+        // Handle destination selection
+        sellDestination.addEventListener('change', function() {
+            if (this.value === 'other') {
+                otherDestinationGroup.style.display = 'block';
+            } else {
+                otherDestinationGroup.style.display = 'none';
+            }
+        });
+
+        // Open sell modal
+        function openSellModal(cropId) {
+            const crop = crops.find(c => c.id === cropId);
+            if (crop) {
+                currentSellCropId = cropId;
+                document.getElementById('sell-crop-id').value = cropId;
+                document.getElementById('available-quantity').textContent = crop.remainingQuantity + ' kg';
+                document.getElementById('sell-quantity').max = crop.remainingQuantity;
+                document.getElementById('sell-quantity').value = '';
+                sellModal.style.display = 'block';
+            }
+        }
+
+        // Close sell modal
+        function closeSellModal() {
+            sellModal.style.display = 'none';
+            sellForm.reset();
+            otherDestinationGroup.style.display = 'none';
+            currentSellCropId = null;
+        }
+
+        // Delete crop from inventory
+        function deleteCrop(cropId) {
+            if (confirm('Are you sure you want to delete this crop from inventory?')) {
+                crops = crops.filter(crop => crop.id !== cropId);
+                updateUI();
+            }
+        }
+
+        // Switch between tabs
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tabName + '-tab').classList.add('active');
         }
 
         // Update UI with current data
         function updateUI() {
-            // Update transactions table
+            renderInventory();
             renderTransactions();
-            
-            // Calculate and update summary
-            const summary = calculateSummary();
-            totalIncomeEl.textContent = ₹${summary.totalIncome.toLocaleString('en-IN')};
-            totalExpensesEl.textContent = ₹${summary.totalExpenses.toLocaleString('en-IN')};
-            netProfitEl.textContent = ₹${summary.netProfit.toLocaleString('en-IN')};
-            
-            // Update year summary
-            yearProfitEl.textContent = ₹${summary.netProfit.toLocaleString('en-IN')};
-            
-            // Update profit margin
-            const profitMargin = summary.totalIncome > 0 ? (summary.netProfit / summary.totalIncome * 100) : 0;
-            profitMarginEl.textContent = ${profitMargin.toFixed(1)}%;
-            profitProgressEl.style.width = ${Math.min(Math.abs(profitMargin), 100)}%;
-            
-            // Update profit indicator
-            if (summary.netProfit > 0) {
-                profitIndicatorEl.textContent = Profit: +₹${summary.netProfit.toLocaleString('en-IN')};
-                profitIndicatorEl.className = 'profit-indicator profit-positive-bg';
-            } else if (summary.netProfit < 0) {
-                profitIndicatorEl.textContent = Loss: -₹${Math.abs(summary.netProfit).toLocaleString('en-IN')};
-                profitIndicatorEl.className = 'profit-indicator profit-negative-bg';
-            } else {
-                profitIndicatorEl.textContent = 'Break-even';
-                profitIndicatorEl.className = 'profit-indicator';
+            updateSummary();
+        }
+
+        // Render inventory table
+        function renderInventory() {
+            if (crops.length === 0) {
+                emptyInventory.style.display = 'block';
+                inventoryBody.innerHTML = '';
+                return;
             }
             
-            // Update chart
-            updateChart();
+            emptyInventory.style.display = 'none';
+            inventoryBody.innerHTML = '';
+            
+            // Sort crops by harvest date (newest first)
+            const sortedCrops = [...crops].sort((a, b) => 
+                new Date(b.harvestDate) - new Date(a.harvestDate)
+            );
+            
+            sortedCrops.forEach(crop => {
+                const row = document.createElement('tr');
+                const harvestDateObj = new Date(crop.harvestDate);
+                const formattedHarvestDate = harvestDateObj.toLocaleDateString('en-IN', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+                
+                row.innerHTML = `
+                    <td><strong>${crop.name}</strong></td>
+                    <td>${formattedHarvestDate}</td>
+                    <td>${crop.totalQuantity.toFixed(2)} kg</td>
+                    <td><strong>${crop.remainingQuantity.toFixed(2)} kg</strong></td>
+                    <td class="action-cell">
+                        <button class="sell-btn" onclick="openSellModal(${crop.id})">
+                            <i class="fas fa-minus"></i> Sell
+                        </button>
+                        <button class="delete-btn" onclick="deleteCrop(${crop.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                
+                inventoryBody.appendChild(row);
+            });
         }
 
         // Render transactions table
@@ -710,159 +825,56 @@
                     day: 'numeric'
                 });
                 
+                const destinationText = transaction.destination === 'other' ? 
+                    transaction.notes : transaction.destination;
+                
                 row.innerHTML = `
                     <td>${formattedDate}</td>
-                    <td>${transaction.description}</td>
-                    <td>${formatCategory(transaction.category)}</td>
-                    <td>${transaction.type === 'income' ? 'Income' : 'Expense'}</td>
-                    <td class="${transaction.type === 'income' ? 'profit-positive' : 'profit-negative'}">
-                        ${transaction.type === 'income' ? '+' : '-'}₹${transaction.amount.toLocaleString('en-IN')}
+                    <td>${transaction.cropName}</td>
+                    <td>
+                        <span class="transaction-type transaction-${transaction.type}">
+                            ${transaction.type === 'harvest' ? 'Harvest' : 'Sale'}
+                        </span>
                     </td>
-                    <td class="action-cell">
-                        <button class="delete-btn" onclick="deleteTransaction(${transaction.id})">
-                            <i class="fas fa-trash"></i>
-                        </button>
+                    <td class="${transaction.type === 'harvest' ? 'quantity-positive' : 'quantity-negative'}">
+                        ${transaction.type === 'harvest' ? '+' : '-'}${transaction.quantity.toFixed(2)} kg
                     </td>
+                    <td>${destinationText}</td>
+                    <td>${transaction.notes || '-'}</td>
                 `;
                 
                 transactionsBody.appendChild(row);
             });
         }
 
-        // Calculate financial summary
-        function calculateSummary() {
-            const currentYearTransactions = transactions.filter(transaction => {
-                const transactionYear = new Date(transaction.date).getFullYear();
-                return transactionYear === currentYear;
-            });
+        // Update summary statistics
+        function updateSummary() {
+            const totalCrops = crops.length;
+            const totalQuantity = crops.reduce((sum, crop) => sum + crop.totalQuantity, 0);
+            const totalTransactions = transactions.length;
             
-            const totalIncome = currentYearTransactions
-                .filter(t => t.type === 'income')
-                .reduce((sum, t) => sum + t.amount, 0);
-                
-            const totalExpenses = currentYearTransactions
-                .filter(t => t.type === 'expense')
-                .reduce((sum, t) => sum + t.amount, 0);
-                
-            const netProfit = totalIncome - totalExpenses;
-            
-            return { totalIncome, totalExpenses, netProfit };
+            document.getElementById('total-crops').textContent = totalCrops;
+            document.getElementById('total-quantity').textContent = totalQuantity.toFixed(2) + ' kg';
+            document.getElementById('total-transactions').textContent = totalTransactions;
         }
 
-        // Format category for display
-        function formatCategory(category) {
-            const categoryMap = {
-                'seeds': 'बीज',
-                'fertilizer': 'उर्वरक',
-                'equipment': 'उपकरण',
-                'labor': 'श्रम',
-                'harvest': 'फसल',
-                'pesticide': 'कीटनाशक',
-                'water': 'जल',
-                'transport': 'परिवहन',
-                'storage': 'भंडारण',
-                'other': 'अन्य'
-            };
-            return categoryMap[category] || category;
-        }
-
-        // Update chart with transaction data
-        function updateChart() {
-            const ctx = document.getElementById('profitChart').getContext('2d');
-            
-            // Prepare data for chart
-            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            const incomeData = new Array(12).fill(0);
-            const expenseData = new Array(12).fill(0);
-            
-            transactions.forEach(transaction => {
-                const date = new Date(transaction.date);
-                const month = date.getMonth();
-                const year = date.getFullYear();
-                
-                if (year === currentYear) {
-                    if (transaction.type === 'income') {
-                        incomeData[month] += transaction.amount;
-                    } else {
-                        expenseData[month] += transaction.amount;
-                    }
-                }
-            });
-            
-            // Destroy existing chart if it exists
-            if (profitChart) {
-                profitChart.destroy();
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target === sellModal) {
+                closeSellModal();
             }
-            
-            // Create new chart
-            profitChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: months,
-                    datasets: [
-                        {
-                            label: 'Income',
-                            data: incomeData,
-                            backgroundColor: 'rgba(76, 175, 80, 0.7)',
-                            borderColor: 'rgba(76, 175, 80, 1)',
-                            borderWidth: 1
-                        },
-                        {
-                            label: 'Expenses',
-                            data: expenseData,
-                            backgroundColor: 'rgba(244, 67, 54, 0.7)',
-                            borderColor: 'rgba(244, 67, 54, 1)',
-                            borderWidth: 1
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                callback: function(value) {
-                                    return '₹' + value.toLocaleString('en-IN');
-                                }
-                            }
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return context.dataset.label + ': ₹' + context.parsed.y.toLocaleString('en-IN');
-                                }
-                            }
-                        }
-                    }
-                }
-            });
         }
 
-        // Initialize with sample data for demonstration
-        function initializeSampleData() {
-            const sampleTransactions = [
-                { id: 1, type: 'expense', amount: 15000, description: 'बाजरा के बीज', category: 'seeds', date: '2023-03-15' },
-                { id: 2, type: 'expense', amount: 8000, description: 'जैविक उर्वरक', category: 'fertilizer', date: '2023-04-02' },
-                { id: 3, type: 'income', amount: 65000, description: 'बाजरा की फसल बिक्री', category: 'harvest', date: '2023-07-20' },
-                { id: 4, type: 'expense', amount: 25000, description: 'ट्रैक्टर की मरम्मत', category: 'equipment', date: '2023-05-10' },
-                { id: 5, type: 'income', amount: 48000, description: 'मक्का की फसल बिक्री', category: 'harvest', date: '2023-09-30' },
-                { id: 6, type: 'expense', amount: 5000, description: 'कीटनाशक दवा', category: 'pesticide', date: '2023-06-15' },
-                { id: 7, type: 'expense', amount: 12000, description: 'श्रमिक मजदूरी', category: 'labor', date: '2023-08-05' }
-            ];
-            
-            transactions = sampleTransactions;
-            updateUI();
-        }
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && sellModal.style.display === 'block') {
+                closeSellModal();
+            }
+        });
 
         // Initialize the application
-        initializeSampleData();
+        updateUI();
     </script>
 </body>
 </html>
+{% include "footer.html" %}

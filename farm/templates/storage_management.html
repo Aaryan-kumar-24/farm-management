@@ -1,3 +1,4 @@
+ {% load static %}
 {% include "header.html" %}
 
 <!DOCTYPE html>
@@ -66,41 +67,58 @@
 </head>
 <body>
 
-<h1 class="text-center my-5 fw-bold">Farm Dashboard Features</h1>
+<h1 class="text-center my-5 fw-bold" style="color:green;">Farm Dashboard Features</h1>
 
 <div class="card-container">
-  <div class="dashboard-card" >
-    <img src="https://images.unsplash.com/photo-1589927986089-35812389fc17" alt="Request Crop Purchase">
+
+  <a href="{% url 'storage' %}" >
+ 
+<div class="dashboard-card" >
+    <img src="{% static 'Request Crop Purchase.webp' %}" alt="Request Crop Purchase">
     <div class="card-overlay">
       <h5>Request Crop Purchase</h5>
       <p>Submit and track requests</p>
     </div>
   </div>
 
-  <div class="dashboard-card" >
-    <img src="https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2" alt="Profit & Loss Prediction">
+ 
+</a>
+  <a href="{% url 'profit_loss' %}" >
+ 
+<div class="dashboard-card" >
+    <img src="{% static 'Profit & Loss Prediction.webp' %}" alt="Profit & Loss Prediction">
     <div class="card-overlay">
       <h5>Profit & Loss Prediction</h5>
       <p>Analyze seasonal data</p>
     </div>
   </div>
 
-  <div class="dashboard-card" >
-    <img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6" alt="Weekly To-Do List">
+ 
+</a>
+  <a href="{% url 'to_do_list' %}" >
+ 
+<div class="dashboard-card" >
+    <img  src="{% static 'Weekly To-Do List.jpg' %}" alt="Weekly To-Do List">
     <div class="card-overlay">
       <h5>Weekly To-Do List</h5>
       <p>Manage tasks & schedules</p>
     </div>
   </div>
 
-  <div class="dashboard-card" >
-    <img src="https://images.unsplash.com/photo-1592928300845-b0b5e7f39d92" alt="Quantity Tracking">
+ 
+</a>
+  <a href="{% url 'quantity_tracker' %}" >
+ 
+<div class="dashboard-card" >
+    <img src="{% static 'Quantity Tracking.jpg' %}" alt="Quantity Tracking">
     <div class="card-overlay">
       <h5>Quantity Tracking</h5>
       <p>Track crop quantities</p>
     </div>
   </div>
 </div>
+ 
+</a>
 
 <!-- Inline Details Section -->
 <div id="details" class="details-section"></div>

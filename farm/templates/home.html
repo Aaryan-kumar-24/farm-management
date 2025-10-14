@@ -765,14 +765,1090 @@ transition: transform 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.5s;
 }
 </style>
 
-
-
-
-
-<a href="{% url 'profit_loss' %}" class="btn btn-primary">
- profit
+<a href="{% url 'profit_loss' %}" >
+ 
 </a>
 
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Profitable Crops in India - KisanProfit Advisor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+
+
+        :root {
+            --primary-green: #2e7d32;
+            --secondary-green: #4caf50;
+            --light-green: #c8e6c9;
+            --dark-green: #1b5e20;
+            --accent-orange: #ff9800;
+            --light-orange: #ffe0b2;
+            --soil-brown: #795548;
+            --sun-yellow: #ffc107;
+            --text-dark: #333;
+            --text-light: #f5f5f5;
+            --white: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top:20px;
+        }
+
+
+
+
+
+
+
+        h1 {
+            font-size: 2.8rem;
+            color: var(--dark-green);
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, var(--primary-green), var(--accent-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--soil-brown);
+            margin: 0 auto;
+        }
+
+        .category-icons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .category-icon {
+            text-align: center;
+            padding: 15px;
+            border-radius: 12px;
+            background: var(--light-green);
+            width: 120px;
+            transition: var(--transition);
+        }
+
+        .category-icon:hover {
+            transform: translateY(-5px);
+            background: var(--secondary-green);
+            color: var(--white);
+        }
+
+        .category-icon i {
+            font-size: 2.2rem;
+            color: var(--primary-green);
+            margin-bottom: 10px;
+        }
+
+        .category-icon:hover i {
+            color: var(--white);
+        }
+
+        .category-icon span {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .crop-card {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            height: 300px;
+            transition: var(--transition);
+        }
+
+        .crop-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .crop-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .glass-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+
+        }
+
+        .crop-name {
+            font-size: 1.8rem;
+            color: white;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .crop-details {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .detail-item {
+            color:white;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .detail-item i {
+            color: white;
+        }
+
+        .profit-range {
+            background: linear-gradient(45deg, var(--primary-green), var(--secondary-green));
+            color: var(--white);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            display: inline-block;
+            font-size: 0.9rem;
+        }
+
+        .more-btn {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgb(6, 233, 6,0.4);
+            color: var(--white);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .more-btn:hover {
+            background: rgba(6, 233, 6, 0.608);
+            transform: translateY(-2px);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background: var(--white);
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 800px;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--soil-brown);
+            background: none;
+            border: none;
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--light-green);
+        }
+
+        .modal-header h2 {
+            color: var(--primary-green);
+            font-size: 2.2rem;
+        }
+
+        .modal-section {
+            margin-bottom: 25px;
+        }
+
+        .modal-section h3 {
+            color: var(--dark-green);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-section h3 i {
+            color: var(--primary-green);
+        }
+
+        .modal-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .modal-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .info-item {
+            background: var(--light-green);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .info-item h4 {
+            color: var(--dark-green);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-item p {
+            line-height: 1.6;
+        }
+
+        .recommendations {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+
+        .recommendations h2 {
+            color: var(--primary-green);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .step {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            background: var(--light-green);
+        }
+                .step:hover{
+                  
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .step i {
+            font-size: 2.5rem;
+            color: var(--primary-green);
+            margin-bottom: 15px;
+        }
+
+        .step h3 {
+            color: var(--dark-green);
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+ <div class="container">
+                <div class="recommendations">
+            <h2><i class="fas fa-lightbulb"></i> Recommended Top Crops </h2>
+            <div class="steps">
+                <div class="step">
+                    <i class="fas fa-search-location"></i>
+                    <h3>Select 2-3 Crops</h3>
+                    <p>Choose crops suited to your district's microclimate and market access</p>
+                </div>
+                <div class="step">
+                    <i class="fas fa-seedling"></i>
+                    <h3>Start Small</h3>
+                    <p>Do a 1-acre pilot with best practices and certified materials</p>
+                </div>
+                <div class="step">
+                    <i class="fas fa-handshake"></i>
+                    <h3>Secure Market</h3>
+                    <p>Connect with FPOs, aggregators, or contract buyers before scaling</p>
+                </div>
+                <div class="step">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Plan Finances</h3>
+                    <p>Prepare 3-year cash flow including establishment years</p>
+                </div>
+            </div>
+        </div>
+    
+            
+
+        <div class="cards-container">
+            <!-- Saffron Card -->
+            <div class="crop-card">
+                <img src="{% static 'Saffron.avif' %}" alt="Saffron" class="crop-image">
+                <div class="glass-overlay">
+                    <h3 class="crop-name">Saffron</h3>
+                    <div class="crop-details">
+                        <div class="detail-item">
+                            <!-- <i class="fas fa-rupee-sign"></i> -->
+                            <span>₹4-12L/acre</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-seedling"></i>
+                            <span>High Value</span>
+                        </div>
+                    </div>
+                    
+                </div>
+                <button class="more-btn" onclick="openModal('saffron')">
+                    <i class="fas fa-info-circle"></i> More Info
+                </button>
+            </div>
+
+            <!-- Medicinal Herbs Card -->
+            <div class="crop-card">
+                <img src="{% static 'Medicinal Herbs.avif' %}" alt="Medicinal Herbs" class="crop-image">
+                <div class="glass-overlay">
+                    <h3 class="crop-name">Medicinal Herbs</h3>
+                    <div class="crop-details">
+                        <div class="detail-item">
+                            <!-- <i class="fas fa-rupee-sign"></i> -->
+                            <span>₹1-6L/acre</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-capsules"></i>
+                            <span>Ashwagandha</span>
+                        </div>
+                    </div>
+                    
+                </div>
+                <button class="more-btn" onclick="openModal('herbs')">
+                    <i class="fas fa-info-circle"></i> More Info
+                </button>
+            </div>
+
+        
+            <!-- Cut Flowers Card -->
+            <div class="crop-card">
+                <img src="{% static 'Cut Flowers.jpg' %}" alt="Cut Flowers" class="crop-image">
+                <div class="glass-overlay">
+                    <h3 class="crop-name">Cut Flowers</h3>
+                    <div class="crop-details">
+                        <div class="detail-item">
+                            <!-- <i class="fas fa-rupee-sign"></i> -->
+                            <span>₹1-8L/acre</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-home"></i>
+                            <span>Protected</span>
+                        </div>
+                    </div>
+                   
+                </div>
+                <button class="more-btn" onclick="openModal('flowers')">
+                    <i class="fas fa-info-circle"></i> More Info
+                </button>
+            </div>
+
+            <!-- Mushrooms Card -->
+            <div class="crop-card">
+                <img src="{% static 'Mushrooms.avif' %}" alt="Mushrooms" class="crop-image">
+                <div class="glass-overlay">
+                    <h3 class="crop-name">Mushrooms</h3>
+                    <div class="crop-details">
+                        <div class="detail-item">
+                            <!-- <i class="fas fa-rupee-sign"></i> -->
+                            <span>₹1-4L/cycle</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-recycle"></i>
+                            <span>Multiple Cycles</span>
+                        </div>
+                    </div>
+                   
+                </div>
+                <button class="more-btn" onclick="openModal('mushrooms')">
+                    <i class="fas fa-info-circle"></i> More Info
+                </button>
+            </div>
+
+            <!-- High-Density Vegetables Card -->
+            <div class="crop-card">
+                <img src="{% static 'Greenhouse Veggies.jpg' %}" alt="High-Density Vegetables" class="crop-image">
+                <div class="glass-overlay">
+                    <h3 class="crop-name">Greenhouse Veggies</h3>
+                    <div class="crop-details">
+                        <div class="detail-item">
+                            <!-- <i class="fas fa-rupee-sign"></i> -->
+                            <span>₹1.5-10L/acre</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Protected</span>
+                        </div>
+                    </div>
+                  
+                </div>
+                <button class="more-btn" onclick="openModal('vegetables')">
+                    <i class="fas fa-info-circle"></i> More Info
+                </button>
+            </div>
+
+            <!-- Organic Spices Card -->
+            <div class="crop-card">
+                <img src="{% static 'Organic Spices.jpg' %}" alt="Organic Spices" class="crop-image">
+                <div class="glass-overlay">
+                    <h3 class="crop-name">Organic Spices</h3>
+                    <div class="crop-details">
+                        <div class="detail-item">
+                            <!-- <i class="fas fa-rupee-sign"></i> -->
+                            <span>₹80K-3L/acre</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-certificate"></i>
+                            <span>Certified</span>
+                        </div>
+                    </div>
+                    
+                </div>
+                <button class="more-btn" onclick="openModal('spices')">
+                    <i class="fas fa-info-circle"></i> More Info
+                </button>
+            </div>
+
+            <!-- Avocado Card -->
+            <div class="crop-card">
+                <img src="{% static 'Avocado.avif' %}" alt="Avocado" class="crop-image">
+                <div class="glass-overlay">
+                    <h3 class="crop-name">Avocado</h3>
+                    <div class="crop-details">
+                        <div class="detail-item">
+                            <!-- <i class="fas fa-rupee-sign"></i> -->
+                            <span>₹50K-6L/acre</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-thermometer-half"></i>
+                            <span>Subtropical</span>
+                        </div>
+                    </div>
+                    
+                </div>
+                <button class="more-btn" onclick="openModal('avocado')">
+                    <i class="fas fa-info-circle"></i> More Info
+                </button>
+            </div>
+
+            <!-- Cotton Card -->
+            <div class="crop-card">
+                <img src="{% static 'Hybrid Cotton.avif' %}" alt="Cotton" class="crop-image">
+                <div class="glass-overlay">
+                    <h3 class="crop-name">Hybrid Cotton</h3>
+                    <div class="crop-details">
+                        <div class="detail-item">
+                            <!-- <i class="fas fa-rupee-sign"></i> -->
+                            <span>₹30K-1.5L/acre</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-tint"></i>
+                            <span>Irrigated</span>
+                        </div>
+                    </div>
+                    
+                </div>
+                <button class="more-btn" onclick="openModal('cotton')">
+                    <i class="fas fa-info-circle"></i> More Info
+                </button>
+            </div>
+
+            <!-- Hybrid Maize Card -->
+            <div class="crop-card">
+                <img src="{% static 'Hybrid Maize.jpg' %}" alt="Hybrid Maize" class="crop-image">
+                <div class="glass-overlay">
+                    <h3 class="crop-name">Hybrid Maize</h3>
+                    <div class="crop-details">
+                        <div class="detail-item">
+                            <!-- <i class="fas fa-rupee-sign"></i> -->
+                            <span>₹30K-1L/acre</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-cloud-rain"></i>
+                            <span>Monsoon Crop</span>
+                        </div>
+                    </div>
+                    
+                </div>
+                <button class="more-btn" onclick="openModal('maize')">
+                    <i class="fas fa-info-circle"></i> More Info
+                </button>
+            </div>
+        </div>
+
+
+        <!-- Modals -->
+        <div id="saffron-modal" class="modal">
+            <div class="modal-content">
+                <button class="close-modal" onclick="closeModal('saffron')">&times;</button>
+                <div class="modal-header">
+                    <h2><i class="fas fa-spa"></i> Saffron Cultivation</h2>
+                </div>
+                <div class="modal-section">
+                    <h3><i class="fas fa-seedling"></i> Soil & Climate Requirements</h3>
+                    <div class="modal-grid">
+                        <div class="info-item">
+                            <h4><i class="fas fa-mountain"></i> Soil</h4>
+                            <p>Light, well-drained sandy loam with neutral to slightly alkaline pH (6.5-8.0)</p>
+                        </div>
+                        <div class="info-item">
+                            <h4><i class="fas fa-temperature-high"></i> Climate</h4>
+                            <p>Cold dry winters for dormancy, mild springs, and frost-free flowering window</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-section">
+                    <h3><i class="fas fa-tools"></i> Inputs & Equipment</h3>
+                    <div class="info-item">
+                        <p>Saffron corms, raised beds, drip irrigation, mulch, hand labor for picking, simple drying room</p>
+                    </div>
+                </div>
+                <div class="modal-section">
+                    <h3><i class="fas fa-rupee-sign"></i> Financial Analysis</h3>
+                    <div class="modal-grid">
+                        <div class="info-item">
+                            <h4><i class="fas fa-wallet"></i> Estimated Cost</h4>
+                            <p>₹80,000 – 1,50,000 per acre (high corm input, bed preparation, labor)</p>
+                        </div>
+                        <div class="info-item">
+                            <h4><i class="fas fa-chart-line"></i> Expected Profit</h4>
+                            <p>₹4,00,000 – 12,00,000 per acre (high value per kg of saffron stigma)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="herbs-modal" class="modal">
+            <div class="modal-content">
+                <button class="close-modal" onclick="closeModal('herbs')">&times;</button>
+                <div class="modal-header">
+                    <h2><i class="fas fa-cannabis"></i> Medicinal Herbs</h2>
+                </div>
+                <div class="modal-section">
+                    <h3><i class="fas fa-seedling"></i> Soil & Climate Requirements</h3>
+                    <div class="modal-grid">
+                        <div class="info-item">
+                            <h4><i class="fas fa-mountain"></i> Soil</h4>
+                            <p>Sandy loam to loam with good drainage for root herbs</p>
+                        </div>
+                        <div class="info-item">
+                            <h4><i class="fas fa-temperature-high"></i> Climate</h4>
+                            <p>Varies by herb; many thrive in semi-arid to subtropical conditions</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-section">
+                    <h3><i class="fas fa-tools"></i> Inputs & Equipment</h3>
+                    <div class="info-item">
+                        <p>Certified planting material, organic inputs for premium pricing, drip irrigation, shade nets for some species, harvesting tools, drying equipment</p>
+                    </div>
+                </div>
+                <div class="modal-section">
+                    <h3><i class="fas fa-rupee-sign"></i> Financial Analysis</h3>
+                    <div class="modal-grid">
+                        <div class="info-item">
+                            <h4><i class="fas fa-wallet"></i> Estimated Cost</h4>
+                            <p>₹30,000 – 80,000 per acre</p>
+                        </div>
+                        <div class="info-item">
+                            <h4><i class="fas fa-chart-line"></i> Expected Profit</h4>
+                            <p>₹1,00,000 – 6,00,000 per acre (higher for organic or export quality)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="maize-modal" class="modal">
+    <div class="modal-content">
+
+        <button class="close-modal" onclick="closeModal('maize')" aria-label="Close">&times;</button>
+
+        <div class="modal-header">
+            <h2><i class="fas fa-leaf"></i> Maize (Corn) Farming</h2>
+        </div>
+
+        <div class="modal-section">
+            <h3><i class="fas fa-seedling"></i> Soil & Climate Requirements</h3>
+            <div class="modal-grid">
+                <div class="info-item">
+                    <h4><i class="fas fa-layer-group"></i> Soil</h4>
+                    <p>Well-drained loam or silt-loam soils, rich in organic matter and nutrients (pH 6.0-7.2).</p>
+                </div>
+                <div class="info-item">
+                    <h4><i class="fas fa-sun"></i> Climate</h4>
+                    <p>Warm, sunny weather is ideal; requires adequate moisture throughout the growing season, especially during flowering.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-section">
+            <h3><i class="fas fa-tools"></i> Inputs & Equipment</h3>
+            <div class="info-item">
+                <ul>
+                    <li>High-yielding hybrid seeds</li>
+                    <li>Heavy application of NPK fertilizers and manure</li>
+                    <li>Irrigation system for supplemental watering</li>
+                    <li>Tractors for ploughing, seeding, and inter-culture</li>
+                    <li>Herbicides and pesticides for crop protection</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="modal-section">
+            <h3><i class="fas fa-rupee-sign"></i> Financial Analysis</h3>
+            <div class="modal-grid">
+                <div class="info-item">
+                    <h4><i class="fas fa-wallet"></i> Estimated Cost</h4>
+                    <p>₹20,000 – ₹40,000 per acre per season.</p>
+                </div>
+                <div class="info-item">
+                    <h4><i class="fas fa-chart-line"></i> Expected Profit</h4>
+                    <p>₹25,000 – ₹60,000+ per acre, depending on yield, MSP, and market rate.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+        <div id="avocado-modal" class="modal">
+    <div class="modal-content">
+
+        <button class="close-modal" onclick="closeModal('avocado')" aria-label="Close">&times;</button>
+
+        <div class="modal-header">
+            <h2><i class="fas fa-leaf"></i> Avocado Farming</h2>
+        </div>
+
+        <div class="modal-section">
+            <h3><i class="fas fa-seedling"></i> Soil & Climate Requirements</h3>
+            <div class="modal-grid">
+                <div class="info-item">
+                    <h4><i class="fas fa-layer-group"></i> Soil</h4>
+                    <p>Requires deep, fertile, well-drained sandy loam soil (pH 5.5-7.0). Highly sensitive to waterlogging.</p>
+                </div>
+                <div class="info-item">
+                    <h4><i class="fas fa-sun"></i> Climate</h4>
+                    <p>Sub-tropical climate; thrives in regions with no frost and high humidity. Must be protected from strong winds.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-section">
+            <h3><i class="fas fa-tools"></i> Inputs & Equipment</h3>
+            <div class="info-item">
+                <ul>
+                    <li>High-quality grafted saplings (e.g., Hass, Fuerte)</li>
+                    <li>Heavy organic manure and balanced NPK fertilizers</li>
+                    <li>Drip irrigation system for precise watering</li>
+                    <li>Orchard management tools (pruners, saws, sprayers)</li>
+                    <li>Mulching materials to conserve soil moisture</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="modal-section">
+            <h3><i class="fas fa-rupee-sign"></i> Financial Analysis</h3>
+            <div class="modal-grid">
+                <div class="info-item">
+                    <h4><i class="fas fa-wallet"></i> Establishment Cost</h4>
+                    <p>₹1,00,000 – ₹2,50,000 per acre (for saplings, irrigation, and initial setup).</p>
+                </div>
+                <div class="info-item">
+                    <h4><i class="fas fa-chart-line"></i> Expected Profit</h4>
+                    <p>₹3,00,000 – ₹7,00,000+ per acre annually (at maturity, after 5-7 years).</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="cotton-modal" class="modal">
+    <div class="modal-content">
+
+        <button class="close-modal" onclick="closeModal('cotton')" aria-label="Close">&times;</button>
+
+        <div class="modal-header">
+            <h2><i class="fas fa-leaf"></i> Cotton Farming</h2>
+        </div>
+
+        <div class="modal-section">
+            <h3><i class="fas fa-seedling"></i> Soil & Climate Requirements</h3>
+            <div class="modal-grid">
+                <div class="info-item">
+                    <h4><i class="fas fa-layer-group"></i> Soil</h4>
+                    <p>Deep, well-drained black cotton soils or alluvial soils are ideal, with good moisture retention (pH 6.0-8.0).</p>
+                </div>
+                <div class="info-item">
+                    <h4><i class="fas fa-sun"></i> Climate</h4>
+                    <p>A tropical/sub-tropical crop requiring a long frost-free period (200+ days), high temperatures, and sunny weather during maturation.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-section">
+            <h3><i class="fas fa-tools"></i> Inputs & Equipment</h3>
+            <div class="info-item">
+                <ul>
+                    <li>High-yielding, pest-resistant seeds (e.g., Bt cotton hybrids)</li>
+                    <li>Balanced application of NPK fertilizers</li>
+                    <li>Irrigation source for critical growth stages</li>
+                    <li>Tractors, cultivators, and sprayers</li>
+                    <li>Chemicals for pest (e.g., bollworm) and weed control</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="modal-section">
+            <h3><i class="fas fa-rupee-sign"></i> Financial Analysis</h3>
+            <div class="modal-grid">
+                <div class="info-item">
+                    <h4><i class="fas fa-wallet"></i> Estimated Cost</h4>
+                    <p>₹35,000 – ₹60,000 per acre per season.</p>
+                </div>
+                <div class="info-item">
+                    <h4><i class="fas fa-chart-line"></i> Expected Profit</h4>
+                    <p>₹30,000 – ₹80,000+ per acre, depending heavily on yield, quality, and prevailing market prices (MSP).</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+        <div id="nuts-modal" class="modal">
+            <div class="modal-content">
+                <button class="close-modal" onclick="closeModal('nuts')">&times;</button>
+                <div class="modal-header">
+                    <h2><i class="fas fa-apple-alt"></i> Nut Orchards</h2>
+                </div>
+                <div class="modal-section">
+                    <h3><i class="fas fa-seedling"></i> Soil & Climate Requirements</h3>
+                    <div class="modal-grid">
+                        <div class="info-item">
+                            <h4><i class="fas fa-mountain"></i> Soil</h4>
+                            <p>Deep, well-drained loam with low waterlogging risk</p>
+                        </div>
+                        <div class="info-item">
+                            <h4><i class="fas fa-temperature-high"></i> Climate</h4>
+                            <p>Temperate to subtropical with dry summers and cold winters ideal for nuts</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-section">
+                    <h3><i class="fas fa-tools"></i> Inputs & Equipment</h3>
+                    <div class="info-item">
+                        <p>Saplings, orchard layout, drip irrigation, trellising/pruning tools, pest management, mechanized harvest where feasible</p>
+                    </div>
+                </div>
+                <div class="modal-section">
+                    <h3><i class="fas fa-rupee-sign"></i> Financial Analysis</h3>
+                    <div class="modal-grid">
+                        <div class="info-item">
+                            <h4><i class="fas fa-wallet"></i> Estimated Cost</h4>
+                            <p>₹1,50,000 – 3,00,000 per acre (first 3-5 years establishment)</p>
+                        </div>
+                        <div class="info-item">
+                            <h4><i class="fas fa-chart-line"></i> Expected Profit</h4>
+                            <p>₹1,00,000 – 6,00,000 per acre once trees mature; payback over several years</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="flowers-modal" class="modal">
+    <div class="modal-content">
+        <button class="close-modal" onclick="closeModal('flowers')">&times;</button>
+        <div class="modal-header">
+            <h2><i class="fas fa-spa"></i> Flower Cultivation</h2>
+        </div>
+        <div class="modal-section">
+            <h3><i class="fas fa-seedling"></i> Soil & Climate Requirements</h3>
+            <div class="modal-grid">
+                <div class="info-item">
+                    <h4><i class="fas fa-layer-group"></i> Soil</h4>
+                    <p>Well-drained sandy loam or loamy soil, rich in organic matter</p>
+                </div>
+                <div class="info-item">
+                    <h4><i class="fas fa-sun"></i> Climate</h4>
+                    <p>Varies by species; typically moderate temperatures with ample sunlight are ideal</p>
+                </div>
+            </div>
+        </div>
+        <div class="modal-section">
+            <h3><i class="fas fa-tools"></i> Inputs & Equipment</h3>
+            <div class="info-item">
+                <p>High-quality seeds/bulbs, fertilizers, pesticides, polyhouse/shade nets, irrigation systems (drip/sprinkler), and tools for planting & harvesting</p>
+            </div>
+        </div>
+        <div class="modal-section">
+            <h3><i class="fas fa-rupee-sign"></i> Financial Analysis</h3>
+            <div class="modal-grid">
+                <div class="info-item">
+                    <h4><i class="fas fa-wallet"></i> Estimated Cost</h4>
+                    <p>₹80,000 – ₹2,00,000 per acre per season (depends on flower type & infrastructure)</p>
+                </div>
+                <div class="info-item">
+                    <h4><i class="fas fa-chart-line"></i> Expected Profit</h4>
+                    <p>₹1,50,000 – ₹5,00,000+ per acre per season, varying with market demand and species</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="mushrooms-modal" class="modal">
+    <div class="modal-content">
+
+        <button class="close-modal" onclick="closeModal('mushrooms')" aria-label="Close">&times;</button>
+
+        <div class="modal-header">
+            <h2><i class="fas fa-seedling"></i> Mushroom Farming</h2>
+        </div>
+
+        <div class="modal-section">
+            <h3><i class="fas fa-vials"></i> Substrate & Climate Requirements</h3>
+            <div class="modal-grid">
+                <div class="info-item">
+                    <h4><i class="fas fa-layer-group"></i> Substrate</h4>
+                    <p>Grows on organic substrates like paddy straw, wheat straw, composted manure, or sawdust, not soil.</p>
+                </div>
+                <div class="info-item">
+                    <h4><i class="fas fa-thermometer-half"></i> Climate</h4>
+                    <p>Requires a controlled indoor environment with high humidity (80-95%), low light, and specific temperatures (varying by species).</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-section">
+            <h3><i class="fas fa-tools"></i> Inputs & Equipment</h3>
+            <div class="info-item">
+                <ul>
+                    <li>High-quality mushroom spawn (the "seed")</li>
+                    <li>Sterilized substrate material (e.g., straw)</li>
+                    <li>A dedicated growing room or shed with racks</li>
+                    <li>Sprayers or foggers to maintain humidity</li>
+                    <li>Packing materials for harvested mushrooms</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="modal-section">
+            <h3><i class="fas fa-rupee-sign"></i> Financial Analysis</h3>
+            <div class="modal-grid">
+                <div class="info-item">
+                    <h4><i class="fas fa-wallet"></i> Estimated Cost</h4>
+                    <p>₹25,000 – ₹70,000 per growing cycle for a small-scale shed (10x10 ft).</p>
+                </div>
+                <div class="info-item">
+                    <h4><i class="fas fa-chart-line"></i> Expected Profit</h4>
+                    <p>₹40,000 – ₹1,00,000+ per cycle, based on yield (e.g., oyster, button) and market demand.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="vegetables-modal" class="modal">
+    <div class="modal-content">
+
+        <button class="close-modal" onclick="closeModal('vegetables')" aria-label="Close">&times;</button>
+
+        <div class="modal-header">
+            <h2><i class="fas fa-carrot"></i> Vegetable Farming Essentials</h2>
+        </div>
+
+        <div class="modal-section">
+            <h3><i class="fas fa-seedling"></i> Ideal Conditions</h3>
+            <div class="modal-grid">
+                <div class="info-item">
+                    <h4><i class="fas fa-layer-group"></i> Soil Type</h4>
+                    <p>Prefers well-drained, fertile loam soil rich in organic matter (ideal pH 6.0-7.0).</p>
+                </div>
+                <div class="info-item">
+                    <h4><i class="fas fa-cloud-sun"></i> Climate & Season</h4>
+                    <p>Crop selection must match the season (e.g., Kharif/Rabi) for optimal growth and yield.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-section">
+            <h3><i class="fas fa-tools"></i> Essential Inputs & Tools</h3>
+            <div class="info-item">
+                <ul>
+                    <li>Certified, high-yielding seeds suitable for the local climate.</li>
+                    <li>Balanced organic and chemical fertilizers.</li>
+                    <li>Efficient irrigation system like drip or sprinklers.</li>
+                    <li>Standard farming tools for land preparation and weeding.</li>
+                    <li>Integrated Pest Management (IPM) for crop protection.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="modal-section">
+            <h3><i class="fas fa-rupee-sign"></i> Financial Outlook (Per Acre)</h3>
+            <div class="modal-grid">
+                <div class="info-item">
+                    <h4><i class="fas fa-wallet"></i> Seasonal Investment</h4>
+                    <p>₹40,000 – ₹1,00,000, covering seeds, fertilizers, and labour for one crop cycle.</p>
+                </div>
+                <div class="info-item">
+                    <h4><i class="fas fa-chart-line"></i> Potential Returns</h4>
+                    <p>₹80,000 – ₹3,00,000+, with high-value crops and good market linkage yielding higher profits.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal-section">
+            <h3><i class="fas fa-star"></i> Key to Success</h3>
+            <div class="info-item">
+                <p>Success hinges on <strong>strong market linkage</strong>, efficient <strong>water management</strong>, and practicing <strong>crop rotation</strong> to maintain soil health.</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="spices-modal" class="modal">
+    <div class="modal-content">
+
+        <button class="close-modal" onclick="closeModal('spices')" aria-label="Close">&times;</button>
+
+        <div class="modal-header">
+            <h2><i class="fas fa-pepper-hot"></i> Spice Farming</h2>
+        </div>
+
+        <div class="modal-section">
+            <h3><i class="fas fa-seedling"></i> Soil & Climate Requirements</h3>
+            <div class="modal-grid">
+                <div class="info-item">
+                    <h4><i class="fas fa-layer-group"></i> Soil</h4>
+                    <p>Well-drained loamy or lateritic soils, rich in organic matter (pH 5.5-7.5).</p>
+                </div>
+                <div class="info-item">
+                    <h4><i class="fas fa-sun"></i> Climate</h4>
+                    <p>Largely tropical/sub-tropical; requires specific temperature, humidity, and rainfall based on the spice.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-section">
+            <h3><i class="fas fa-tools"></i> Inputs & Equipment</h3>
+            <div class="info-item">
+                <ul>
+                    <li>Quality planting material (seeds, rhizomes, cuttings)</li>
+                    <li>Farmyard manure (FYM) and vermicompost</li>
+                    <li>Efficient irrigation (drip systems are common)</li>
+                    <li>Tools for planting, harvesting, and processing/drying</li>
+                    <li>Integrated Pest Management (IPM) supplies</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="modal-section">
+            <h3><i class="fas fa-rupee-sign"></i> Financial Analysis</h3>
+            <div class="modal-grid">
+                <div class="info-item">
+                    <h4><i class="fas fa-wallet"></i> Estimated Cost</h4>
+                    <p>₹50,000 – ₹1,50,000 per acre (varies with spice type and planting density).</p>
+                </div>
+                <div class="info-item">
+                    <h4><i class="fas fa-chart-line"></i> Expected Profit</h4>
+                    <p>₹1,00,000 – ₹4,00,000+ per acre, depending on the spice, yield, and market rates.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+    </div>
+
+    <script>
+        function openModal(cropId) {
+            document.getElementById(cropId + '-modal').style.display = 'block';
+        }
+
+        function closeModal(cropId) {
+            document.getElementById(cropId + '-modal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const modals = document.querySelectorAll('.modal');
+                modals.forEach(modal => {
+                    if (modal.style.display === 'block') {
+                        modal.style.display = 'none';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
 
 
 

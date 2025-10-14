@@ -1,4 +1,5 @@
 {% include "header.html" %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,12 +8,7 @@
     <title>FarmTask Manager - Agricultural To-Do List</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+
 
         :root {
             --primary-green: #2e7d32;
@@ -22,7 +18,6 @@
             --accent-orange: #ff9800;
             --light-orange: #ffe0b2;
             --soil-brown: #795548;
-            --sky-blue: #87ceeb;
             --text-dark: #333;
             --text-light: #f5f5f5;
             --white: #ffffff;
@@ -30,26 +25,20 @@
             --transition: all 0.3s ease;
         }
 
-        body {
-            background: linear-gradient(135deg, var(--light-green) 0%, var(--sky-blue) 100%);
-            min-height: 100vh;
-            padding: 20px;
-            color: var(--text-dark);
-        }
 
+
+        .containers {
+            max-width: 2100px;
+            display:flex;
+            justify-content:space-evenly;
+            margin-top: 50px;
+            margin-bottom: 150px;
+        }
         .container {
             max-width: 1000px;
-            margin: 0 auto;
         }
 
-        header {
-            text-align: center;
-            padding: 30px 0;
-            margin-bottom: 30px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            box-shadow: var(--shadow);
-        }
+
 
         .logo {
             display: flex;
@@ -127,11 +116,12 @@
             padding: 25px;
             margin-bottom: 30px;
             transition: var(--transition);
+            
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
         }
 
         .card-header {
@@ -194,7 +184,6 @@
             font-size: 1.1rem;
             font-weight: 600;
             transition: var(--transition);
-            display: inline-flex;
             align-items: center;
             gap: 10px;
             box-shadow: var(--shadow);
@@ -380,13 +369,6 @@
             color: var(--white);
         }
 
-        footer {
-            text-align: center;
-            padding: 30px 0;
-            color: var(--soil-brown);
-            font-size: 0.9rem;
-            margin-top: 30px;
-        }
 
         @media (max-width: 768px) {
             .task-item {
@@ -401,38 +383,8 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="logo">
-                <i class="fas fa-tasks"></i>
-                <h1>FarmTask Manager</h1>
-            </div>
-            <p class="subtitle">Organize your farming activities, track tasks, and boost agricultural productivity</p>
-            
-            <div class="task-icons">
-                <div class="task-icon" onclick="setTaskCategory('sowing')">
-                    <i class="fas fa-seedling"></i>
-                    <span>Sowing</span>
-                </div>
-                <div class="task-icon" onclick="setTaskCategory('irrigation')">
-                    <i class="fas fa-tint"></i>
-                    <span>Irrigation</span>
-                </div>
-                <div class="task-icon" onclick="setTaskCategory('fertilizing')">
-                    <i class="fas fa-wind"></i>
-                    <span>Fertilizing</span>
-                </div>
-                <div class="task-icon" onclick="setTaskCategory('pest-control')">
-                    <i class="fas fa-bug"></i>
-                    <span>Pest Control</span>
-                </div>
-                <div class="task-icon" onclick="setTaskCategory('harvesting')">
-                    <i class="fas fa-wheat-alt"></i>
-                    <span>Harvesting</span>
-                </div>
-            </div>
-        </header>
-
+    <div class="containers">
+       
         <div class="card">
             <div class="card-header">
                 <i class="fas fa-plus-circle"></i>
@@ -491,9 +443,9 @@
         </div>
 
         <div class="card">
-            <div class="card-header">
-                <i class="fas fa-list-check"></i>
-                <h2 class="card-title">Farm Task Dashboard</h2>
+            <div class="card-heade">
+                <h2 class="card-title">
+                <i class="fas fa-list-check"></i> Farm Task Dashboard</h2>
             </div>
             
             <div class="stats">
@@ -519,7 +471,7 @@
                 </div>
             </div>
             
-            <div class="filter-buttons">
+            <div class="filter-buttons" style="margin-top:50px;">
                 <button class="filter-btn active" onclick="filterTasks('all')">All Tasks</button>
                 <button class="filter-btn" onclick="filterTasks('pending')">Pending</button>
                 <button class="filter-btn" onclick="filterTasks('completed')">Completed</button>
@@ -536,10 +488,7 @@
             </div>
         </div>
 
-        <footer>
-            <p>FarmTask Manager &copy; 2023 - Your Agricultural Productivity Companion</p>
-            <p>Organize, Track, and Complete Your Farming Activities Efficiently</p>
-        </footer>
+
     </div>
 
     <script>
@@ -662,7 +611,7 @@
             
             filteredTasks.forEach(task => {
                 const taskElement = document.createElement('div');
-                taskElement.className = task-item ${task.completed ? 'completed' : ''} priority-${task.priority};
+                taskElement.className = `task-item ${task.completed ? 'completed' : ''} priority-${task.priority}`;
                 
                 const dueDateObj = new Date(task.dueDate);
                 const formattedDueDate = dueDateObj.toLocaleDateString('en-IN', {
@@ -693,7 +642,7 @@
                                 ${formatPriority(task.priority)}
                             </div>
                         </div>
-                        ${task.notes ? <p style="margin-top: 10px; color: var(--soil-brown);">${task.notes}</p> : ''}
+                        ${task.notes ? `<p style="margin-top: 10px; color: var(--soil-brown);">${task.notes}</p>` : ''}
                     </div>
                     <div class="task-actions">
                         <button class="action-btn delete-btn" onclick="deleteTask(${task.id})" title="Delete Task">
@@ -750,5 +699,4 @@
     </script>
 </body>
 </html>
-
 {% include "footer.html" %}

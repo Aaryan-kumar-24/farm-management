@@ -1,3 +1,5 @@
+{% include "header.html" %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,12 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
 
         :root {
             --primary-green: #2e7d32;
@@ -31,26 +27,14 @@
             --transition: all 0.3s ease;
         }
 
-        body {
-            background: linear-gradient(135deg, var(--light-green) 0%, var(--sky-blue) 100%);
-            min-height: 100vh;
-            padding: 20px;
-            color: var(--text-dark);
-        }
+
 
         .container {
             max-width: 1400px;
             margin: 0 auto;
         }
 
-        header {
-            text-align: center;
-            padding: 30px 0;
-            margin-bottom: 30px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            box-shadow: var(--shadow);
-        }
+
 
         .logo {
             display: flex;
@@ -102,14 +86,16 @@
         .card {
             background: var(--white);
             border-radius: 15px;
-            box-shadow: var(--shadow);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
             padding: 25px;
+            margin-top:100px;
+            margin-bottom:100px;
             transition: var(--transition);
         }
 
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.55);
         }
 
         .card-header {
@@ -194,7 +180,6 @@
             font-size: 1.1rem;
             font-weight: 600;
             transition: var(--transition);
-            display: inline-flex;
             align-items: center;
             gap: 10px;
             box-shadow: var(--shadow);
@@ -302,7 +287,7 @@
         }
 
         .year-summary {
-            background: linear-gradient(135deg, var(--soil-brown), #5d4037);
+            background: linear-gradient(135deg,   var(--primary-green), var(--secondary-green));
             color: var(--white);
             text-align: center;
             padding: 40px;
@@ -339,13 +324,7 @@
             background: linear-gradient(45deg, #f44336, #d32f2f);
         }
 
-        footer {
-            text-align: center;
-            padding: 30px 0;
-            color: var(--soil-brown);
-            font-size: 0.9rem;
-            margin-top: 30px;
-        }
+
 
         .empty-state {
             text-align: center;
@@ -413,36 +392,6 @@
 </head>
 <body>
     <div class="container">
-        <header>
-            <div class="logo">
-                <i class="fas fa-tractor"></i>
-                <h1>KisanProfit Tracker</h1>
-            </div>
-            <p class="subtitle">Complete Financial Management Solution for Indian Farmers - Track Expenses, Income, and Annual Profits</p>
-            
-            <div class="category-icons">
-                <div class="category-icon">
-                    <i class="fas fa-seedling"></i>
-                    <span>Seeds</span>
-                </div>
-                <div class="category-icon">
-                    <i class="fas fa-wind"></i>
-                    <span>Fertilizer</span>
-                </div>
-                <div class="category-icon">
-                    <i class="fas fa-tools"></i>
-                    <span>Equipment</span>
-                </div>
-                <div class="category-icon">
-                    <i class="fas fa-hands-helping"></i>
-                    <span>Labor</span>
-                </div>
-                <div class="category-icon">
-                    <i class="fas fa-wheat-alt"></i>
-                    <span>Harvest</span>
-                </div>
-            </div>
-        </header>
 
         <div class="dashboard">
             <div class="card">
@@ -588,10 +537,6 @@
             </div>
         </div>
 
-        <footer>
-            <p>KisanProfit Tracker &copy; 2023 - Empowering Indian Farmers with Financial Intelligence</p>
-            <p>Designed for the prosperity of Indian agriculture</p>
-        </footer>
     </div>
 
     <script>
@@ -657,24 +602,24 @@
             
             // Calculate and update summary
             const summary = calculateSummary();
-            totalIncomeEl.textContent = ₹${summary.totalIncome.toLocaleString('en-IN')};
-            totalExpensesEl.textContent = ₹${summary.totalExpenses.toLocaleString('en-IN')};
-            netProfitEl.textContent = ₹${summary.netProfit.toLocaleString('en-IN')};
+            totalIncomeEl.textContent = `₹${summary.totalIncome.toLocaleString('en-IN')}`;
+            totalExpensesEl.textContent = `₹${summary.totalExpenses.toLocaleString('en-IN')}`;
+            netProfitEl.textContent = `₹${summary.netProfit.toLocaleString('en-IN')}`;
             
             // Update year summary
-            yearProfitEl.textContent = ₹${summary.netProfit.toLocaleString('en-IN')};
+            yearProfitEl.textContent = `₹${summary.netProfit.toLocaleString('en-IN')}`;
             
             // Update profit margin
             const profitMargin = summary.totalIncome > 0 ? (summary.netProfit / summary.totalIncome * 100) : 0;
-            profitMarginEl.textContent = ${profitMargin.toFixed(1)}%;
-            profitProgressEl.style.width = ${Math.min(Math.abs(profitMargin), 100)}%;
+            profitMarginEl.textContent = `${profitMargin.toFixed(1)}%`;
+            profitProgressEl.style.width = `${Math.min(Math.abs(profitMargin), 100)}%`;
             
             // Update profit indicator
             if (summary.netProfit > 0) {
-                profitIndicatorEl.textContent = Profit: +₹${summary.netProfit.toLocaleString('en-IN')};
+                profitIndicatorEl.textContent = `Profit: +₹${summary.netProfit.toLocaleString('en-IN')}`;
                 profitIndicatorEl.className = 'profit-indicator profit-positive-bg';
             } else if (summary.netProfit < 0) {
-                profitIndicatorEl.textContent = Loss: -₹${Math.abs(summary.netProfit).toLocaleString('en-IN')};
+                profitIndicatorEl.textContent = `Loss: -₹${Math.abs(summary.netProfit).toLocaleString('en-IN')}`;
                 profitIndicatorEl.className = 'profit-indicator profit-negative-bg';
             } else {
                 profitIndicatorEl.textContent = 'Break-even';
@@ -848,14 +793,7 @@
         // Initialize with sample data for demonstration
         function initializeSampleData() {
             const sampleTransactions = [
-                { id: 1, type: 'expense', amount: 15000, description: 'बाजरा के बीज', category: 'seeds', date: '2023-03-15' },
-                { id: 2, type: 'expense', amount: 8000, description: 'जैविक उर्वरक', category: 'fertilizer', date: '2023-04-02' },
-                { id: 3, type: 'income', amount: 65000, description: 'बाजरा की फसल बिक्री', category: 'harvest', date: '2023-07-20' },
-                { id: 4, type: 'expense', amount: 25000, description: 'ट्रैक्टर की मरम्मत', category: 'equipment', date: '2023-05-10' },
-                { id: 5, type: 'income', amount: 48000, description: 'मक्का की फसल बिक्री', category: 'harvest', date: '2023-09-30' },
-                { id: 6, type: 'expense', amount: 5000, description: 'कीटनाशक दवा', category: 'pesticide', date: '2023-06-15' },
-                { id: 7, type: 'expense', amount: 12000, description: 'श्रमिक मजदूरी', category: 'labor', date: '2023-08-05' }
-            ];
+              ];
             
             transactions = sampleTransactions;
             updateUI();
@@ -866,4 +804,4 @@
     </script>
 </body>
 </html>
-
+{% include "footer.html" %}
