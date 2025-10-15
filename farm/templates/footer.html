@@ -1,22 +1,47 @@
-
 <style>
+.footer_image {
+    display: flex;
+    margin-top: 100px;
+}
 
+#google_translate_element {
+    margin-top: -50px;
+    padding-left: 120px;
+    text-align: center;
+}
 
-.footer_image{
-  display:flex;
+/* Stylish Language Button */
+.goog-te-gadget-simple {
+    background: linear-gradient(to right, #9ed457ff, #578618ff);
+    padding: 8px 20px;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: white !important;
+    display: inline-block;
+}
+
+.goog-te-gadget-simple:hover {
+    background: linear-gradient(to right, #578618ff, #9ed457ff);
+    transform: scale(1.05);
+}
+
+/* Optional: remove small Google branding */
+.goog-logo-link {
+    display: none !important;
 }
 </style>
- {% load static %}
-<div class="footer_image" style="margin-top:100px;">
-<img src="{% static 'footera.png' %}">
-<img src="{% static 'footerb.png' %}" style="width:700px;">
 
-
+{% load static %}
+<div class="footer_image">
+    <img src="{% static 'footera.png' %}">
+    <img src="{% static 'footerb.png' %}" style="width:700px;">
 </div>
 
 <div class="header">
-<footer class="text-white " style=" background: linear-gradient(to bottom, #9ed457ff, #578618ff, #3a6009ff, #294603ff); padding: 40px 0;">
-  <div class="container ">
+<footer class="text-white" style="background: linear-gradient(to bottom, #9ed457ff, #578618ff, #3a6009ff, #294603ff); padding: 40px 0;">
+  <div class="container">
     <div class="row">
 
       <!-- About Section -->
@@ -30,12 +55,12 @@
       <!-- Quick Links -->
       <div class="col-md-3 mb-4">
         <h5>Quick Links</h5>
-        <ul class="list-unstyled" >
-          <li><a href="{% url 'home' %}" class="text-white" style="text-decoration:none;" >Home</a></li>
-          <li><a href="{% url 'sell_crop' %}" class="text-white" style="text-decoration:none;" >Sell Crop</a></li>
-          <li><a href="{% url 'farm_monitiring' %}" class="text-white" style="text-decoration:none;" >Farm Monitoring</a></li>
-          <li><a href="{% url 'workers' %}" class="text-white" style="text-decoration:none;" >Worker Management</a></li>
-          <li><a href="{% url 'storage' %}" class="text-white" style="text-decoration:none;" >Storage Management</a></li>
+        <ul class="list-unstyled">
+          <li><a href="{% url 'home' %}" class="text-white" style="text-decoration:none;">Home</a></li>
+          <li><a href="{% url 'sell_crop' %}" class="text-white" style="text-decoration:none;">Sell Crop</a></li>
+          <li><a href="{% url 'farm_monitiring' %}" class="text-white" style="text-decoration:none;">Farm Monitoring</a></li>
+          <li><a href="{% url 'workers' %}" class="text-white" style="text-decoration:none;">Worker Management</a></li>
+          <li><a href="{% url 'storage' %}" class="text-white" style="text-decoration:none;">Storage Management</a></li>
         </ul>
       </div>
 
@@ -55,6 +80,12 @@
           <a href="https://www.instagram.com/_aaryan__24/" class="text-white me-3"><i class="fab fa-instagram"></i></a>
           <a href="https://youtube.com/@aryavarta_twinbro" class="text-white me-3"><i class="fab fa-youtube"></i></a>
         </div>
+
+        <!-- Change Language Button -->
+        <div id="google_translate_element" >
+
+          
+        </div>
       </div>
 
     </div>
@@ -63,8 +94,19 @@
 
     <!-- Footer Bottom -->
     <div class="text-center">
-      &copy; 2025 Aryavarta E-kheti . All rights reserved  @ Aryavarta Twinbro.
+      &copy; 2025 Aryavarta E-kheti. All rights reserved @ Aryavarta Twinbro.
     </div>
   </div>
 </footer>
-  </div>
+</div>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    includedLanguages: 'en,hi,kn,ta,te,fr,es,de', // Added German as extra option
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+  }, 'google_translate_element');
+}
+</script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
